@@ -1,2 +1,2 @@
-# educational-platform
-An educational platform (LMS) built with Laravel. Includes user and tutor dashboards, lessons, projects, community, and multi-language support.
+# Movie-Booking-System
+A simple web application for browsing movies and booking cinema tickets online.  
