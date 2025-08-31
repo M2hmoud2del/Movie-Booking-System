@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\user\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,6 +29,19 @@ Route::prefix('admin')->group(function () {
     Route::get('/payments', [AdminController::class, 'payments'])->name('admin.payments');
     Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
     Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
+});
+
+
+
+
+//User Routes
+Route::prefix('User')->group(function () {
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/movies', [UserController::class, 'movies'])->name('user.movies');
+    Route::get('/showtimes', [UserController::class, 'showtimes'])->name('user.showtimes');
+    Route::get('/payments', [UserController::class, 'payments'])->name('user.payments');
+    Route::get('/booking', [UserController::class, 'booking'])->name('user.booking');
+    Route::get('/history', [UserController::class, 'history'])->name('user.history');
 });
 
 
