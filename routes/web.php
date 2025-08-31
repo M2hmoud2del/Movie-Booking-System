@@ -1,8 +1,17 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\admin\AdminController;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MovieController;
+use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\ScreeningController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,15 +28,30 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin Routes
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/movies', [AdminController::class, 'movies'])->name('admin.movies');
-    Route::get('/bookings', [AdminController::class, 'bookings'])->name('admin.bookings');
-    Route::get('/screenings', [AdminController::class, 'screenings'])->name('admin.screenings');
-    Route::get('/customers', [AdminController::class, 'customers'])->name('admin.customers');
-    Route::get('/payments', [AdminController::class, 'payments'])->name('admin.payments');
-    Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
-    Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Movies
+    Route::resource('movies', MovieController::class);
+
+    // Bookings
+    Route::resource('bookings', BookingController::class);
+
+    // Screenings
+    Route::resource('screenings', ScreeningController::class);
+
+    // Customers
+    Route::resource('customers', CustomerController::class);
+
+    // Admins
+    Route::get('admins/logs', [AdminController::class, 'logs'])->name('admins.logs');
+    Route::resource('admins', AdminController::class);
+    // Payments
+    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+
+    // Settings
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
 });
 
 

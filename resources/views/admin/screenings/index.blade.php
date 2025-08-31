@@ -10,6 +10,9 @@
             <i class="fas fa-search"></i>
             <input type="text" placeholder="Search screenings...">
         </div>
+        <a href="{{ route('admin.screenings.create') }}" class="btn-primary">
+            <i class="fas fa-plus"></i> New Screening
+        </a>
         <div class="user-info">
             <div class="user-img">AD</div>
             <div>
@@ -33,15 +36,19 @@
     </select>
     
     <select class="filter-select">
-        <option>All Status</option>
-        <option>Now Showing</option>
-        <option>Coming Soon</option>
-        <option>Ended</option>
+        <option>All Movies</option>
+        <option>Spider-Man: No Way Home</option>
+        <option>The Batman</option>
+        <option>Black Panther: Wakanda Forever</option>
+        <option>Top Gun: Maverick</option>
     </select>
     
-    <button class="btn-primary">
-        <i class="fas fa-plus"></i> New Screening
-    </button>
+    <select class="filter-select">
+        <option>All Dates</option>
+        <option>Today</option>
+        <option>This Week</option>
+        <option>This Month</option>
+    </select>
 </div>
 
 <!-- Screenings Table -->
@@ -55,69 +62,64 @@
         <thead>
             <tr>
                 <th>Movie</th>
-                <th>Duration</th>
                 <th>Screen</th>
+                <th>Date</th>
                 <th>Showtimes</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
+                <th>Available Seats</th>
+                <th>Ticket Price</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>Spider-Man: No Way Home</td>
-                <td>2h 28m</td>
                 <td>Screen 3</td>
+                <td>2023-06-15</td>
                 <td>7:30 PM, 10:00 PM</td>
-                <td>2023-06-01</td>
-                <td>2023-07-15</td>
-                <td><span class="status active">Now Showing</span></td>
+                <td>45/120</td>
+                <td>$12.50</td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                    <a href="{{ route('admin.screenings.show', 1) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.screenings.edit', 1) }}" class="action-btn"><i class="fas fa-edit"></i></a>
                     <button class="action-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
             <tr>
                 <td>The Batman</td>
-                <td>2h 56m</td>
                 <td>Screen 1</td>
+                <td>2023-06-15</td>
                 <td>8:00 PM, 11:00 PM</td>
-                <td>2023-06-10</td>
-                <td>2023-07-20</td>
-                <td><span class="status active">Now Showing</span></td>
+                <td>32/150</td>
+                <td>$14.00</td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                    <a href="{{ route('admin.screenings.show', 2) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.screenings.edit', 2) }}" class="action-btn"><i class="fas fa-edit"></i></a>
                     <button class="action-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
             <tr>
                 <td>Black Panther: Wakanda Forever</td>
-                <td>2h 41m</td>
                 <td>Screen 2</td>
+                <td>2023-06-16</td>
                 <td>6:00 PM, 9:00 PM</td>
-                <td>2023-06-15</td>
-                <td>2023-07-25</td>
-                <td><span class="status active">Now Showing</span></td>
+                <td>78/120</td>
+                <td>$13.50</td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                    <a href="{{ route('admin.screenings.show', 3) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.screenings.edit', 3) }}" class="action-btn"><i class="fas fa-edit"></i></a>
                     <button class="action-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
             <tr>
-                <td>Avatar: The Way of Water</td>
-                <td>3h 12m</td>
+                <td>Top Gun: Maverick</td>
                 <td>Screen 4</td>
+                <td>2023-06-16</td>
                 <td>5:30 PM, 9:30 PM</td>
-                <td>2023-07-01</td>
-                <td>2023-08-30</td>
-                <td><span class="status pending">Coming Soon</span></td>
+                <td>15/100</td>
+                <td>$15.00</td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                    <a href="{{ route('admin.screenings.show', 4) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.screenings.edit', 4) }}" class="action-btn"><i class="fas fa-edit"></i></a>
                     <button class="action-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
@@ -166,13 +168,33 @@
         border-radius: 6px;
         cursor: pointer;
         font-weight: 600;
-        display: flex;
+        text-decoration: none;
+        display: inline-flex;
         align-items: center;
         gap: 8px;
     }
     
     .btn-primary:hover {
         background: #c40811;
+    }
+
+    .action-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-right: 5px;
+        color: var(--text);
+        transition: background 0.3s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .action-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
     }
 </style>
 @endpush

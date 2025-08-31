@@ -69,7 +69,7 @@
 <div class="dashboard-section">
     <div class="section-header">
         <h2 class="section-title">Now Showing</h2>
-        <a href="#" class="view-all">View All</a>
+        <a href="{{route('admin.screenings.index')}}" class="view-all">View All</a>
     </div>
     
     <table class="data-table">
@@ -89,8 +89,8 @@
                 <td>Screen 3</td>
                 <td><span class="status active">Now Showing</span></td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                    <a href="{{route('admin.screenings.edit',1)}}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('admin.screenings.destroy',1)}}" class="action-btn"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
             <tr>
@@ -99,8 +99,8 @@
                 <td>Screen 1</td>
                 <td><span class="status active">Now Showing</span></td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                    <a href="{{route('admin.screenings.edit',1)}}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('admin.screenings.destroy',1)}}" class="action-btn"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
             <tr>
@@ -109,8 +109,8 @@
                 <td>Screen 2</td>
                 <td><span class="status active">Now Showing</span></td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                    <a href="{{route('admin.screenings.edit',1)}}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('admin.screenings.destroy',1)}}" class="action-btn"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
             <tr>
@@ -119,8 +119,8 @@
                 <td>Screen 4</td>
                 <td><span class="status active">Now Showing</span></td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                    <a href="{{route('admin.screenings.edit',1)}}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('admin.screenings.destroy',1)}}" class="action-btn"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
         </tbody>
@@ -131,7 +131,7 @@
 <div class="dashboard-section">
     <div class="section-header">
         <h2 class="section-title">Recent Bookings</h2>
-        <a href="#" class="view-all">View All</a>
+        <a href="{{route('admin.bookings.index')}}" class="view-all">View All</a>
     </div>
     
     <div class="bookings-list">

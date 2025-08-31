@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
 
-class AdminController extends Controller
+class MovieController extends Controller
 {
     public function index()
     {
-        return view('admin.admins.index', ['admins' => User::all()]);
+        return view('admin.movies.index', ['admins' => User::all()]);
     }
 
     public function create()
     {
-        return view('admin.admins.create');
+        return view('admin.movies.create');
     }
 
     public function store(Request $request)
@@ -25,12 +25,12 @@ class AdminController extends Controller
 
     public function edit($id)
     {
-        return view('admin.admins.edit',['id' => $id]);
+        return view('admin.movies.edit',['id' => $id]);
     }
 
         public function show($id)
     {
-        return view('admin.admins.show');
+        return view('admin.movies.show');
     }
 
     public function update(Request $request, $id)
@@ -41,8 +41,5 @@ class AdminController extends Controller
     public function destroy($id)
     {
         // Logic to delete admin
-    }
-    public function logs(){
-        return view('admin.admins.logs');
     }
 }

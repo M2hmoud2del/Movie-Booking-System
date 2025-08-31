@@ -1,15 +1,18 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Customers Management - Movie Booking System')
+@section('title', 'Admins Management - Movie Booking System')
 
 @section('header')
 <div class="header">
-    <h1 class="page-title">Customers Management</h1>
+    <h1 class="page-title">Admins Management</h1>
     <div class="header-actions">
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search customers...">
+            <input type="text" placeholder="Search admins...">
         </div>
+        <a href="{{ route('admin.admins.create') }}" class="btn-primary">
+            <i class="fas fa-plus"></i> New Admin
+        </a>
         <div class="user-info">
             <div class="user-img">AD</div>
             <div>
@@ -25,7 +28,7 @@
 <!-- Filters -->
 <div class="filters">
     <select class="filter-select">
-        <option>All Status</option>
+        <option>All Admins</option>
         <option>Active</option>
         <option>Inactive</option>
     </select>
@@ -37,86 +40,77 @@
         <option>Name (A-Z)</option>
         <option>Name (Z-A)</option>
     </select>
-    
-    <button class="btn-primary">
-        <i class="fas fa-plus"></i> New Customer
-    </button>
 </div>
 
-<!-- Customers Table -->
+<!-- Admins Table -->
 <div class="dashboard-section">
     <div class="section-header">
-        <h2 class="section-title">All Customers</h2>
+        <h2 class="section-title">All Administrators</h2>
         <a href="#" class="view-all">Export CSV</a>
     </div>
     
     <table class="data-table">
         <thead>
             <tr>
-                <th>Customer ID</th>
+                <th>Admin ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Join Date</th>
-                <th>Total Bookings</th>
-                <th>Status</th>
+                <th>Last Login</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>#CUS001</td>
+                <td>#ADM001</td>
                 <td>John Doe</td>
-                <td>john.doe@example.com</td>
+                <td>john.doe@cinemax.com</td>
                 <td>(555) 123-4567</td>
                 <td>2023-01-15</td>
-                <td>24</td>
-                <td><span class="status active">Active</span></td>
+                <td>2023-06-15 14:30</td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                    <a href="{{ route('admin.admins.show', 1) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.admins.edit', 1) }}" class="action-btn"><i class="fas fa-edit"></i></a>
                     <button class="action-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
             <tr>
-                <td>#CUS002</td>
+                <td>#ADM002</td>
                 <td>Jane Smith</td>
-                <td>jane.smith@example.com</td>
+                <td>jane.smith@cinemax.com</td>
                 <td>(555) 987-6543</td>
                 <td>2023-02-20</td>
-                <td>18</td>
-                <td><span class="status active">Active</span></td>
+                <td>2023-06-16 09:15</td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                    <a href="{{ route('admin.admins.show', 2) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.admins.edit', 2) }}" class="action-btn"><i class="fas fa-edit"></i></a>
                     <button class="action-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
             <tr>
-                <td>#CUS003</td>
+                <td>#ADM003</td>
                 <td>Robert Johnson</td>
-                <td>robert.j@example.com</td>
+                <td>robert.j@cinemax.com</td>
                 <td>(555) 456-7890</td>
                 <td>2023-03-10</td>
-                <td>12</td>
-                <td><span class="status active">Active</span></td>
+                <td>2023-06-14 16:45</td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                    <a href="{{ route('admin.admins.show', 3) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.admins.edit', 3) }}" class="action-btn"><i class="fas fa-edit"></i></a>
                     <button class="action-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
             <tr>
-                <td>#CUS004</td>
+                <td>#ADM004</td>
                 <td>Sarah Williams</td>
-                <td>sarah.w@example.com</td>
+                <td>sarah.w@cinemax.com</td>
                 <td>(555) 789-0123</td>
                 <td>2023-04-05</td>
-                <td>8</td>
-                <td><span class="status pending">Inactive</span></td>
+                <td>2023-06-10 11:20</td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                    <a href="{{ route('admin.admins.show', 4) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.admins.edit', 4) }}" class="action-btn"><i class="fas fa-edit"></i></a>
                     <button class="action-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
@@ -126,7 +120,7 @@
     <!-- Table Footer -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
         <div style="color: var(--text-secondary); font-size: 14px;">
-            Showing 1 to 4 of 5,842 entries
+            Showing 1 to 4 of 12 entries
         </div>
         <div style="display: flex; gap: 10px;">
             <button class="action-btn">Previous</button>
@@ -165,13 +159,33 @@
         border-radius: 6px;
         cursor: pointer;
         font-weight: 600;
-        display: flex;
+        text-decoration: none;
+        display: inline-flex;
         align-items: center;
         gap: 8px;
     }
     
     .btn-primary:hover {
         background: #c40811;
+    }
+
+    .action-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-right: 5px;
+        color: var(--text);
+        transition: background 0.3s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .action-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
     }
 </style>
 @endpush
