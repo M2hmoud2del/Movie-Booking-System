@@ -56,19 +56,32 @@
                     <span class="nav-text">Admin Logs</span>
                 </a>
             </li>
-
             <li class="nav-item {{ request()->is('admin/payments*') ? 'active' : '' }}">
                 <a href="{{ url('admin/payments') }}">
                     <i class="fas fa-money-bill-wave"></i>
                     <span class="nav-text">Payments</span>
                 </a>
             </li>
-            
             <li class="nav-item {{ request()->is('admin/settings*') ? 'active' : '' }}">
                 <a href="{{ url('admin/settings') }}">
                     <i class="fas fa-cog"></i>
                     <span class="nav-text">Settings</span>
                 </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Log Out Form -->
+    <div class="nav-section">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="nav-link" style="background:none;border:none;padding:0;cursor:pointer;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="nav-text">Log Out</span>
+                    </button>
+                </form>
             </li>
         </ul>
     </div>
