@@ -2,23 +2,14 @@
 
 @section('title', 'Customer Details - Movie Booking System')
 
-@section('header')
-<div class="header">
-    <h1 class="page-title">Customer Details</h1>
-    <div class="header-actions">
-        <a href="{{ route('admin.customers.index') }}" class="btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Customers
-        </a>
-        <div class="user-info">
-            <div class="user-img">AD</div>
-            <div>
-                <div style="font-weight: 600;">Admin User</div>
-                <div style="font-size: 13px; color: var(--text-secondary);">Administrator</div>
-            </div>
-        </div>
-    </div>
-</div>
+@section('page-title', 'Customer Details')
+
+@section('header-actions')
+<a href="{{ route('admin.customers.index') }}" class="btn-secondary">
+    <i class="fas fa-arrow-left"></i> Back to Customers
+</a>
 @endsection
+
 
 @section('content')
 <div class="dashboard-section">

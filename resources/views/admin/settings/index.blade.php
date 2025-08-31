@@ -2,24 +2,15 @@
 
 @section('title', 'Settings - Movie Booking System')
 
-@section('header')
-<div class="header">
-    <h1 class="page-title">System Settings</h1>
-    <div class="header-actions">
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search settings...">
-        </div>
-        <div class="user-info">
-            <div class="user-img">AD</div>
-            <div>
-                <div style="font-weight: 600;">Admin User</div>
-                <div style="font-size: 13px; color: var(--text-secondary);">Administrator</div>
-            </div>
-        </div>
-    </div>
+@section('page-title', 'System Settings')
+
+@section('header-actions')
+<div class="search-box">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search settings...">
 </div>
 @endsection
+
 
 @section('content')
 <!-- Settings Tabs -->

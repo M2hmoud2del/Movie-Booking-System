@@ -2,22 +2,12 @@
 
 @section('title', 'Log Details - Movie Booking System')
 
-@section('header')
-<div class="header">
-    <h1 class="page-title">Log Details</h1>
-    <div class="header-actions">
-        <a href="{{ route('admin.admins.logs.index') }}" class="btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Logs
-        </a>
-        <div class="user-info">
-            <div class="user-img">AD</div>
-            <div>
-                <div style="font-weight: 600;">Admin User</div>
-                <div style="font-size: 13px; color: var(--text-secondary);">Administrator</div>
-            </div>
-        </div>
-    </div>
-</div>
+@section('page-title', 'Log Details')
+
+@section('header-actions')
+<a href="{{ route('admin.admins.logs.index') }}" class="btn-secondary">
+    <i class="fas fa-arrow-left"></i> Back to Logs
+</a>
 @endsection
 
 @section('content')

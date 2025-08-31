@@ -14,7 +14,7 @@
     
     <!-- Main Content -->
     <div class="main-content">
-        @yield('header')
+        @include('admin.layouts.header')
         @yield('content')
     </div>
 

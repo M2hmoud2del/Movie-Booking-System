@@ -2,22 +2,12 @@
 
 @section('title', 'Edit Admin - Movie Booking System')
 
-@section('header')
-<div class="header">
-    <h1 class="page-title">Edit Administrator</h1>
-    <div class="header-actions">
-        <a href="{{ route('admin.admins.index') }}" class="btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Admins
-        </a>
-        <div class="user-info">
-            <div class="user-img">AD</div>
-            <div>
-                <div style="font-weight: 600;">Admin User</div>
-                <div style="font-size: 13px; color: var(--text-secondary);">Administrator</div>
-            </div>
-        </div>
-    </div>
-</div>
+@section('page-title', 'Edit Administrator')
+
+@section('header-actions')
+<a href="{{ route('admin.admins.index') }}" class="btn-secondary">
+    <i class="fas fa-arrow-left"></i> Back to Admins
+</a>
 @endsection
 
 @section('content')

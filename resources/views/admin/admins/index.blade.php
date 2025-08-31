@@ -2,26 +2,17 @@
 
 @section('title', 'Admins Management - Movie Booking System')
 
-@section('header')
-<div class="header">
-    <h1 class="page-title">Admins Management</h1>
-    <div class="header-actions">
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search admins...">
-        </div>
-        <a href="{{ route('admin.admins.create') }}" class="btn-primary">
-            <i class="fas fa-plus"></i> New Admin
-        </a>
-        <div class="user-info">
-            <div class="user-img">AD</div>
-            <div>
-                <div style="font-weight: 600;">Admin User</div>
-                <div style="font-size: 13px; color: var(--text-secondary);">Administrator</div>
-            </div>
-        </div>
-    </div>
+@section('page-title', 'Admins Management')
+
+@section('header-actions')
+<div class="search-box">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search admins...">
 </div>
+
+<a href="{{ route('admin.admins.create') }}" class="btn-primary">
+    <i class="fas fa-plus"></i> New Admin
+</a>
 @endsection
 
 @section('content')

@@ -2,23 +2,14 @@
 
 @section('title', 'Create New Screening - Movie Booking System')
 
-@section('header')
-<div class="header">
-    <h1 class="page-title">Create New Screening</h1>
-    <div class="header-actions">
-        <a href="{{ route('admin.screenings.index') }}" class="btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Screenings
-        </a>
-        <div class="user-info">
-            <div class="user-img">AD</div>
-            <div>
-                <div style="font-weight: 600;">Admin User</div>
-                <div style="font-size: 13px; color: var(--text-secondary);">Administrator</div>
-            </div>
-        </div>
-    </div>
-</div>
+@section('page-title', 'Create New Screening')
+
+@section('header-actions')
+<a href="{{ route('admin.screenings.index') }}" class="btn-secondary">
+    <i class="fas fa-arrow-left"></i> Back to Screenings
+</a>
 @endsection
+
 
 @section('content')
 <div class="dashboard-section">
