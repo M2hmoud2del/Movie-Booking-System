@@ -42,7 +42,4 @@ class AdminController extends Controller
     {
         // Logic to delete admin
     }
-    public function logs(){
-        return view('admin.admins.logs');
-    }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminLogController;
 use App\Http\Controllers\user\UserController;
 
 Route::get('/', function () {
@@ -46,8 +47,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('customers', CustomerController::class);
 
     // Admins
-    Route::get('admins/logs', [AdminController::class, 'logs'])->name('admins.logs');
     Route::resource('admins', AdminController::class);
+
+    //Admin logs
+    Route::get('logs', [AdminLogController::class, 'index'])->name('admins.logs.index');
+    Route::get('logs/{id}', [AdminLogController::class, 'show'])->name('admins.logs.show');
     // Payments
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
 

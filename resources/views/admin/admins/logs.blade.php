@@ -35,7 +35,7 @@
         <option>Delete</option>
         <option>System</option>
     </select>
-    
+
     <select class="filter-select">
         <option>All Admins</option>
         <option>John Doe</option>
@@ -44,7 +44,7 @@
         <option>Sarah Williams</option>
         <option>Michael Brown</option>
     </select>
-    
+
     <select class="filter-select">
         <option>All Modules</option>
         <option>Movies</option>
@@ -54,7 +54,7 @@
         <option>Payments</option>
         <option>System</option>
     </select>
-    
+
     <select class="filter-select">
         <option>Sort By: Newest First</option>
         <option>Sort By: Oldest First</option>
@@ -74,7 +74,7 @@
             </button>
         </div>
     </div>
-    
+
     <table class="data-table">
         <thead>
             <tr>
@@ -101,8 +101,7 @@
                 <td>User logged in successfully</td>
                 <td>192.168.1.101</td>
                 <td>
-                    <a href="{{ route('admin.logs.show', 1) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                    <button class="action-btn" title="Delete Log"><i class="fas fa-trash"></i></button>
+                    <a href="{{ route('admin.admins.logs.show', 1) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             <tr>
@@ -118,8 +117,7 @@
                 <td>Created new movie "Spider-Man: Across the Spider-Verse"</td>
                 <td>192.168.1.102</td>
                 <td>
-                    <a href="{{ route('admin.logs.show', 2) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                    <button class="action-btn" title="Delete Log"><i class="fas fa-trash"></i></button>
+                    <a href="{{ route('admin.admins.logs.show', 2) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             <tr>
@@ -135,8 +133,7 @@
                 <td>Updated screening schedule for Screen 3</td>
                 <td>192.168.1.103</td>
                 <td>
-                    <a href="{{ route('admin.logs.show', 3) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                    <button class="action-btn" title="Delete Log"><i class="fas fa-trash"></i></button>
+                    <a href="{{ route('admin.admins.logs.show', 3) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             <tr>
@@ -152,8 +149,7 @@
                 <td>Deleted booking #BK20230615003</td>
                 <td>192.168.1.101</td>
                 <td>
-                    <a href="{{ route('admin.logs.show', 4) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                    <button class="action-btn" title="Delete Log"><i class="fas fa-trash"></i></button>
+                    <a href="{{ route('admin.admins.logs.show', 4) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             <tr>
@@ -169,8 +165,7 @@
                 <td>Created customer account for Emily Johnson</td>
                 <td>192.168.1.104</td>
                 <td>
-                    <a href="{{ route('admin.logs.show', 5) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                    <button class="action-btn" title="Delete Log"><i class="fas fa-trash"></i></button>
+                    <a href="{{ route('admin.admins.logs.show', 5) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             <tr>
@@ -186,8 +181,7 @@
                 <td>Updated payment status for transaction #PAY2023061422</td>
                 <td>192.168.1.105</td>
                 <td>
-                    <a href="{{ route('admin.logs.show', 6) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                    <button class="action-btn" title="Delete Log"><i class="fas fa-trash"></i></button>
+                    <a href="{{ route('admin.admins.logs.show', 6) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             <tr>
@@ -203,13 +197,12 @@
                 <td>Automatic backup completed successfully</td>
                 <td>127.0.0.1</td>
                 <td>
-                    <a href="{{ route('admin.logs.show', 7) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                    <button class="action-btn" title="Delete Log"><i class="fas fa-trash"></i></button>
+                    <a href="{{ route('admin.admins.logs.show', 7) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
         </tbody>
     </table>
-    
+
     <!-- Table Footer -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
         <div style="color: var(--text-secondary); font-size: 14px;">
@@ -235,7 +228,7 @@
         margin-bottom: 20px;
         flex-wrap: wrap;
     }
-    
+
     .filter-select {
         background: var(--secondary);
         color: var(--text);
@@ -245,7 +238,7 @@
         outline: none;
         min-width: 180px;
     }
-    
+
     .btn-primary {
         background: var(--accent);
         color: white;
@@ -259,11 +252,11 @@
         align-items: center;
         gap: 8px;
     }
-    
+
     .btn-primary:hover {
         background: #c40811;
     }
-    
+
     .btn-secondary {
         background: rgba(255, 255, 255, 0.1);
         color: var(--text);
@@ -277,7 +270,7 @@
         align-items: center;
         gap: 8px;
     }
-    
+
     .btn-secondary:hover {
         background: rgba(255, 255, 255, 0.2);
     }
@@ -296,33 +289,34 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .action-btn:hover {
         background: rgba(255, 255, 255, 0.2);
     }
-    
+
     .badge {
         padding: 5px 12px;
         border-radius: 20px;
         font-size: 13px;
         font-weight: 600;
     }
-    
+
     .badge-success {
         background: rgba(76, 175, 80, 0.2);
         color: #4caf50;
     }
-    
+
     .badge-warning {
         background: rgba(255, 193, 7, 0.2);
+
         color: #ffc107;
     }
-    
+
     .badge-error {
         background: rgba(244, 67, 54, 0.2);
         color: #f44336;
     }
-    
+
     .badge-info {
         background: rgba(33, 150, 243, 0.2);
         color: #2196f3;

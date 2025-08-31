@@ -50,8 +50,8 @@
                     <span class="nav-text">Admins</span>
                 </a>
             </li>
-            <li class="nav-item {{ request()->is('admin/admins/logs') ? 'active' : '' }}">
-                <a href="{{ url('admin/admins/logs') }}">
+            <li class="nav-item {{ request()->is('admin/logs') ? 'active' : '' }}">
+                <a href="{{ url('admin/logs') }}">
                     <i class="fas fa-clipboard-list"></i>
                     <span class="nav-text">Admin Logs</span>
                 </a>
@@ -63,6 +63,7 @@
                     <span class="nav-text">Payments</span>
                 </a>
             </li>
+            
             <li class="nav-item {{ request()->is('admin/settings*') ? 'active' : '' }}">
                 <a href="{{ url('admin/settings') }}">
                     <i class="fas fa-cog"></i>
