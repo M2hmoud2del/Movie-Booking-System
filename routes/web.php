@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin Routes
-Route::prefix('admin')->middleware(['auth',IsAdmin::class])->name('admin.')->group(function () {
+Route::prefix('admin')->middleware(['auth','verified',IsAdmin::class])->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -63,7 +63,7 @@ Route::prefix('admin')->middleware(['auth',IsAdmin::class])->name('admin.')->gro
 
 
 //User Routes
-Route::prefix('User')->group(function () {
+Route::prefix('User')->middleware(['auth','verified'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/movies', [UserController::class, 'movies'])->name('user.movies');
     Route::get('/showtimes', [UserController::class, 'showtimes'])->name('user.showtimes');
