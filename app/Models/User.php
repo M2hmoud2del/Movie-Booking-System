@@ -11,17 +11,17 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'phone', 'password', 'role'];
+
 
     /**
      * The attributes that should be hidden for serialization.
