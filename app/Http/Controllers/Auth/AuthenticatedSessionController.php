@@ -8,9 +8,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Traits\LogsActivity;
 
 class AuthenticatedSessionController extends Controller
 {
+    use LogsActivity;
+
     /**
      * Display the login view.
      */
@@ -29,6 +32,9 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
+
+        $this->logActivity('Login', 'Authentication', $user->name . ' logged in successfully');
+
         if ($user->role === 'admin') {
             return redirect()->route('admin.dashboard');
         } elseif ($user->role === 'user') {
@@ -43,6 +49,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $user = Auth::user();
+
+        if ($user) {
+            $this->logActivity('Logout', 'Authentication', $user->name . ' logged out successfully');
+        }
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

@@ -96,13 +96,16 @@
                 </td>
                 <td>
                     <span class="badge 
-                    @if($log->action == 'Login') badge-success
-                    @elseif($log->action == 'Create') badge-info
-                    @elseif($log->action == 'Update') badge-warning
-                    @elseif($log->action == 'Delete') badge-error
-                    @else badge @endif">
+                        @if($log->action == 'Login') bg-success
+                        @elseif($log->action == 'Create') bg-info
+                        @elseif($log->action == 'Update') bg-warning text-dark
+                        @elseif($log->action == 'Delete') bg-danger
+                        @else bg-primary @endif">
                         {{ $log->action }}
                     </span>
+                </td>
+
+
                 </td>
                 <td>{{ $log->module }}</td>
                 <td>{{ $log->description }}</td>
@@ -124,7 +127,7 @@
 
     </table>
 
-{{ $logs->links('vendor.pagination.custom') }}
+    {{ $logs->links('vendor.pagination.custom') }}
 
 </div>
 @endsection
@@ -208,27 +211,6 @@
         border-radius: 20px;
         font-size: 13px;
         font-weight: 600;
-    }
-
-    .badge-success {
-        background: rgba(76, 175, 80, 0.2);
-        color: #4caf50;
-    }
-
-    .badge-warning {
-        background: rgba(255, 193, 7, 0.2);
-
-        color: #ffc107;
-    }
-
-    .badge-error {
-        background: rgba(244, 67, 54, 0.2);
-        color: #f44336;
-    }
-
-    .badge-info {
-        background: rgba(33, 150, 243, 0.2);
-        color: #2196f3;
     }
 </style>
 @endpush
