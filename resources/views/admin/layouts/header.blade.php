@@ -4,10 +4,16 @@
         @yield('header-actions')
         
         <div class="user-info">
-            <div class="user-img">AD</div>
+            <div class="user-img">
+                {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+            </div>
             <div>
-                <div style="font-weight: 600;">Admin User</div>
-                <div style="font-size: 13px; color: var(--text-secondary);">Administrator</div>
+                <div style="font-weight: 600;">
+                    {{ Auth::user()->name }}
+                </div>
+                <div style="font-size: 13px; color: var(--text-secondary);">
+                    Administrator
+                </div>
             </div>
         </div>
     </div>

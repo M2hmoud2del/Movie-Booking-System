@@ -68,7 +68,7 @@
 <div class="dashboard-section">
     <div class="section-header">
         <h2 class="section-title">Recent Bookings</h2>
-        <a href="#" class="view-all">View All Bookings</a>
+        <a href="{{route('admin.bookings.index')}}" class="view-all">View All Bookings</a>
     </div>
 
     <table class="data-table">

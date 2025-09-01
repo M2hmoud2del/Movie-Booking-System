@@ -78,135 +78,54 @@
             </tr>
         </thead>
         <tbody>
+            @forelse($logs as $log)
             <tr>
-                <td>2023-06-16 14:30:25</td>
+                <td>{{ $log->action_datetime }}</td>
                 <td>
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(233, 69, 96, 0.2); display: flex; align-items: center; justify-content: center; color: var(--accent);">JD</div>
-                        <div>John Doe<br><span style="font-size: 12px; color: var(--text-secondary);">Administrator</span></div>
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(233, 69, 96, 0.2); display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                            {{ strtoupper(substr($log->admin->name,0,2)) }}
+                        </div>
+                        <div>
+                            {{ $log->admin->name ?? 'System' }}<br>
+                            <span style="font-size: 12px; color: var(--text-secondary);">
+                                {{ $log->admin->role ?? 'Automated Process' }}
+                            </span>
+                        </div>
                     </div>
                 </td>
-                <td><span class="badge badge-success">Login</span></td>
-                <td>Authentication</td>
-                <td>User logged in successfully</td>
-                <td>192.168.1.101</td>
                 <td>
-                    <a href="{{ route('admin.admins.logs.show', 1) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
+                    <span class="badge 
+                    @if($log->action == 'Login') badge-success
+                    @elseif($log->action == 'Create') badge-info
+                    @elseif($log->action == 'Update') badge-warning
+                    @elseif($log->action == 'Delete') badge-error
+                    @else badge @endif">
+                        {{ $log->action }}
+                    </span>
+                </td>
+                <td>{{ $log->module }}</td>
+                <td>{{ $log->description }}</td>
+                <td>{{ $log->ip_address }}</td>
+                <td>
+                    <a href="{{ route('admin.admins.logs.show', $log->id) }}" class="action-btn" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </a>
                 </td>
             </tr>
+            @empty
             <tr>
-                <td>2023-06-16 13:15:42</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(33, 150, 243, 0.2); display: flex; align-items: center; justify-content: center; color: #2196f3;">JS</div>
-                        <div>Jane Smith<br><span style="font-size: 12px; color: var(--text-secondary);">Content Manager</span></div>
-                    </div>
-                </td>
-                <td><span class="badge badge-info">Create</span></td>
-                <td>Movies</td>
-                <td>Created new movie "Spider-Man: Across the Spider-Verse"</td>
-                <td>192.168.1.102</td>
-                <td>
-                    <a href="{{ route('admin.admins.logs.show', 2) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
+                <td colspan="7" style="text-align: center; color: gray;">
+                    No logs found.
                 </td>
             </tr>
-            <tr>
-                <td>2023-06-16 11:20:18</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 36x; height: 36px; border-radius: 50%; background: rgba(255, 193, 7, 0.2); display: flex; align-items: center; justify-content: center; color: #ffc107;">RJ</div>
-                        <div>Robert Johnson<br><span style="font-size: 12px; color: var(--text-secondary);">Operations Manager</span></div>
-                    </div>
-                </td>
-                <td><span class="badge badge-warning">Update</span></td>
-                <td>Screenings</td>
-                <td>Updated screening schedule for Screen 3</td>
-                <td>192.168.1.103</td>
-                <td>
-                    <a href="{{ route('admin.admins.logs.show', 3) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>2023-06-15 16:45:37</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(233, 69, 96, 0.2); display: flex; align-items: center; justify-content: center; color: var(--accent);">JD</div>
-                        <div>John Doe<br><span style="font-size: 12px; color: var(--text-secondary);">Administrator</span></div>
-                    </div>
-                </td>
-                <td><span class="badge badge-error">Delete</span></td>
-                <td>Bookings</td>
-                <td>Deleted booking #BK20230615003</td>
-                <td>192.168.1.101</td>
-                <td>
-                    <a href="{{ route('admin.admins.logs.show', 4) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>2023-06-15 14:20:55</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(76, 175, 80, 0.2); display: flex; align-items: center; justify-content: center; color: #4caf50;">SW</div>
-                        <div>Sarah Williams<br><span style="font-size: 12px; color: var(--text-secondary);">Customer Support</span></div>
-                    </div>
-                </td>
-                <td><span class="badge badge-info">Create</span></td>
-                <td>Customers</td>
-                <td>Created customer account for Emily Johnson</td>
-                <td>192.168.1.104</td>
-                <td>
-                    <a href="{{ route('admin.admins.logs.show', 5) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>2023-06-15 10:15:33</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(156, 39, 176, 0.2); display: flex; align-items: center; justify-content: center; color: #9c27b0;">MB</div>
-                        <div>Michael Brown<br><span style="font-size: 12px; color: var(--text-secondary);">Finance Manager</span></div>
-                    </div>
-                </td>
-                <td><span class="badge badge-warning">Update</span></td>
-                <td>Payments</td>
-                <td>Updated payment status for transaction #PAY2023061422</td>
-                <td>192.168.1.105</td>
-                <td>
-                    <a href="{{ route('admin.admins.logs.show', 6) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>2023-06-15 03:00:15</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(103, 58, 183, 0.2); display: flex; align-items: center; justify-content: center; color: #673ab7;">SYS</div>
-                        <div>System<br><span style="font-size: 12px; color: var(--text-secondary);">Automated Process</span></div>
-                    </div>
-                </td>
-                <td><span class="badge" style="background: rgba(103, 58, 183, 0.2); color: #673ab7;">System</span></td>
-                <td>Database</td>
-                <td>Automatic backup completed successfully</td>
-                <td>127.0.0.1</td>
-                <td>
-                    <a href="{{ route('admin.admins.logs.show', 7) }}" class="action-btn" title="View Details"><i class="fas fa-eye"></i></a>
-                </td>
-            </tr>
+            @endforelse
         </tbody>
+
     </table>
 
-    <!-- Table Footer -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-        <div style="color: var(--text-secondary); font-size: 14px;">
-            Showing 1 to 7 of 128 entries
-        </div>
-        <div style="display: flex; gap: 10px;">
-            <button class="action-btn">Previous</button>
-            <button class="action-btn" style="background: var(--accent); color: white;">1</button>
-            <button class="action-btn">2</button>
-            <button class="action-btn">3</button>
-            <button class="action-btn">4</button>
-            <button class="action-btn">Next</button>
-        </div>
-    </div>
+{{ $logs->links('vendor.pagination.custom') }}
+
 </div>
 @endsection
 
