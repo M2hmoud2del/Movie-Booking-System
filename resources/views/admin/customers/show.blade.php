@@ -16,7 +16,7 @@
     <div class="section-header">
         <h2 class="section-title">Customer Information</h2>
         <div class="header-actions">
-            <a href="{{ route('admin.customers.edit', 1) }}" class="btn-primary">
+            <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn-primary">
                 <i class="fas fa-edit"></i> Edit Customer
             </a>
         </div>
@@ -25,90 +25,25 @@
     <div class="customer-details" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div class="detail-group">
             <label style="color: var(--text-secondary); font-size: 14px;">Full Name</label>
-            <p style="font-size: 16px; margin-top: 5px;">John Doe</p>
+            <p style="font-size: 16px; margin-top: 5px;">{{ $customer->name }}</p>
         </div>
 
         <div class="detail-group">
             <label style="color: var(--text-secondary); font-size: 14px;">Email Address</label>
-            <p style="font-size: 16px; margin-top: 5px;">john.doe@example.com</p>
+            <p style="font-size: 16px; margin-top: 5px;">{{ $customer->email }}</p>
         </div>
 
         <div class="detail-group">
             <label style="color: var(--text-secondary); font-size: 14px;">Phone Number</label>
-            <p style="font-size: 16px; margin-top: 5px;">(555) 123-4567</p>
+            <p style="font-size: 16px; margin-top: 5px;">{{ $customer->phone }}</p>
         </div>
 
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Member Since</label>
-            <p style="font-size: 16px; margin-top: 5px;">January 15, 2023</p>
+            <label style="color: var(--text-secondary); font-size: 14px;">Join Date</label>
+            <p style="font-size: 16px; margin-top: 5px;">{{ $customer->created_at->format('Y-m-d') }}</p>
         </div>
 
-        <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Total Bookings</label>
-            <p style="font-size: 16px; margin-top: 5px;">24</p>
-        </div>
-
-        <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Last Booking</label>
-            <p style="font-size: 16px; margin-top: 5px;">June 15, 2023</p>
-        </div>
-
-        <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Address</label>
-            <p style="font-size: 16px; margin-top: 5px;">123 Main Street, New York, NY 10001</p>
-        </div>
-
-        <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Date of Birth</label>
-            <p style="font-size: 16px; margin-top: 5px;">May 15, 1990</p>
-        </div>
     </div>
-</div>
-
-<div class="dashboard-section">
-    <div class="section-header">
-        <h2 class="section-title">Recent Bookings</h2>
-        <a href="{{route('admin.bookings.index')}}" class="view-all">View All Bookings</a>
-    </div>
-
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Booking ID</th>
-                <th>Movie</th>
-                <th>Date & Time</th>
-                <th>Seats</th>
-                <th>Total Amount</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>#BK001</td>
-                <td>Spider-Man: No Way Home</td>
-                <td>2023-06-15 19:30</td>
-                <td>E12, E13</td>
-                <td>$25.00</td>
-                <td>Completed</td>
-            </tr>
-            <tr>
-                <td>#BK002</td>
-                <td>The Batman</td>
-                <td>2023-06-10 20:00</td>
-                <td>F5, F6</td>
-                <td>$28.00</td>
-                <td>Completed</td>
-            </tr>
-            <tr>
-                <td>#BK003</td>
-                <td>Black Panther: Wakanda Forever</td>
-                <td>2023-06-05 18:00</td>
-                <td>G8, G9</td>
-                <td>$26.00</td>
-                <td>Completed</td>
-            </tr>
-        </tbody>
-    </table>
 </div>
 
 <div class="dashboard-section">
@@ -117,21 +52,16 @@
     </div>
 
     <div style="display: flex; gap: 15px;">
-        <a href="{{ route('admin.customers.edit', 1) }}" class="btn-primary">
+        <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn-primary">
             <i class="fas fa-edit"></i> Edit Customer
         </a>
-
-        <button class="btn-danger" onclick="confirmDelete()">
-            <i class="fas fa-trash"></i> Delete Customer
-        </button>
-
-        <button class="btn-secondary">
-            <i class="fas fa-envelope"></i> Send Message
-        </button>
-
-        <button class="btn-secondary">
-            <i class="fas fa-ticket-alt"></i> View All Bookings
-        </button>
+        <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST" onsubmit="return confirmDelete()">
+            @csrf
+            @method('DELETE')
+            <button class="btn-danger">
+                <i class="fas fa-trash"></i> Delete Customer
+            </button>
+        </form>
     </div>
 </div>
 @endsection
@@ -207,10 +137,7 @@
 @push('scripts')
 <script>
     function confirmDelete() {
-        if (confirm('Are you sure you want to delete this customer? This action cannot be undone.')) {
-            // Here you would typically submit a form or make an AJAX request to delete the customer
-            alert('Customer deletion process would be triggered here.');
-        }
+        return confirm('Are you sure you want to delete this customer?');
     }
 </script>
 @endpush

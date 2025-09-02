@@ -1,68 +1,57 @@
 @extends('admin.layouts.app')
 
 @section('title', 'Admin Logs - Movie Booking System')
-
 @section('page-title', 'Admin Activity Logs')
 
 @section('header-actions')
-<div class="search-box">
-    <i class="fas fa-search"></i>
-    <input type="text" placeholder="Search logs...">
+<div class="header-actions">
+    <button class="btn-secondary" onclick="window.location.reload()">
+        <i class="fas fa-sync"></i> Refresh
+    </button>
 </div>
-<button class="btn-primary">
-    <i class="fas fa-download"></i> Export Logs
-</button>
 @endsection
 
 @section('content')
 <!-- Filters -->
-<div class="filters">
-    <select class="filter-select">
-        <option>All Actions</option>
-        <option>Login</option>
-        <option>Create</option>
-        <option>Update</option>
-        <option>Delete</option>
-        <option>System</option>
+<form method="GET" action="{{ route('admin.admins.logs.index') }}" class="filters" style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:20px;">
+    <select name="action" class="filter-select">
+        <option value="">All Actions</option>
+        <option value="Login" {{ request('action') == 'Login' ? 'selected' : '' }}>Login</option>
+        <option value="Logout" {{ request('action') == 'Logout' ? 'selected' : '' }}>Logout</option>
+        <option value="Create" {{ request('action') == 'Create' ? 'selected' : '' }}>Create</option>
+        <option value="Update" {{ request('action') == 'Update' ? 'selected' : '' }}>Update</option>
+        <option value="Delete" {{ request('action') == 'Delete' ? 'selected' : '' }}>Delete</option>
     </select>
 
-    <select class="filter-select">
-        <option>All Admins</option>
-        <option>John Doe</option>
-        <option>Jane Smith</option>
-        <option>Robert Johnson</option>
-        <option>Sarah Williams</option>
-        <option>Michael Brown</option>
+    <select name="admin_id" class="filter-select">
+        <option value="">All Admins</option>
+        @foreach($admins as $admin)
+        <option value="{{ $admin->id }}" {{ request('admin_id') == $admin->id ? 'selected' : '' }}>
+            {{ $admin->name }}
+        </option>
+        @endforeach
     </select>
 
-    <select class="filter-select">
-        <option>All Modules</option>
-        <option>Movies</option>
-        <option>Screenings</option>
-        <option>Bookings</option>
-        <option>Customers</option>
-        <option>Payments</option>
-        <option>System</option>
+    <select name="module" class="filter-select">
+        <option value="">All Modules</option>
+        <option value="Admins" {{ request('module') == 'Admins' ? 'selected' : '' }}>Admins</option>
+        <option value="Authentication" {{ request('module') == 'Authentication' ? 'selected' : '' }}>Authentication</option>
+        <option value="Bookings" {{ request('module') == 'Bookings' ? 'selected' : '' }}>Bookings</option>
+        <option value="Customers" {{ request('module') == 'Customers' ? 'selected' : '' }}>Customers</option>
+        <option value="Movies" {{ request('module') == 'Movies' ? 'selected' : '' }}>Movies</option>
+        <option value="Payments" {{ request('module') == 'Payments' ? 'selected' : '' }}>Payments</option>
+        <option value="Screenings" {{ request('module') == 'Screenings' ? 'selected' : '' }}>Screenings</option>
     </select>
 
-    <select class="filter-select">
-        <option>Sort By: Newest First</option>
-        <option>Sort By: Oldest First</option>
-    </select>
-</div>
+    <button type="submit" class="btn-secondary">
+        <i class="fas fa-filter"></i> Apply Filters
+    </button>
+</form>
 
 <!-- Logs Table -->
 <div class="dashboard-section">
     <div class="section-header">
         <h2 class="section-title">All Admin Activities</h2>
-        <div class="header-actions">
-            <button class="btn-secondary">
-                <i class="fas fa-filter"></i> Apply Filters
-            </button>
-            <button class="btn-secondary">
-                <i class="fas fa-sync"></i> Refresh
-            </button>
-        </div>
     </div>
 
     <table class="data-table">
@@ -82,20 +71,20 @@
             <tr>
                 <td>{{ $log->action_datetime }}</td>
                 <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(233, 69, 96, 0.2); display: flex; align-items: center; justify-content: center; color: var(--accent);">
-                            {{ strtoupper(substr($log->admin->name,0,2)) }}
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div style="width:36px; height:36px; border-radius:50%; background: rgba(233,69,96,0.2); display:flex; align-items:center; justify-content:center; color: var(--accent);">
+                            {{ strtoupper(substr($log->admin->name ?? 'S',0,2)) }}
                         </div>
                         <div>
                             {{ $log->admin->name ?? 'System' }}<br>
-                            <span style="font-size: 12px; color: var(--text-secondary);">
+                            <span style="font-size:12px; color:var(--text-secondary);">
                                 {{ $log->admin->role ?? 'Automated Process' }}
                             </span>
                         </div>
                     </div>
                 </td>
                 <td>
-                    <span class="badge 
+                    <span class="badge
                         @if($log->action == 'Login') bg-success
                         @elseif($log->action == 'Create') bg-info
                         @elseif($log->action == 'Update') bg-warning text-dark
@@ -103,9 +92,6 @@
                         @else bg-primary @endif">
                         {{ $log->action }}
                     </span>
-                </td>
-
-
                 </td>
                 <td>{{ $log->module }}</td>
                 <td>{{ $log->description }}</td>
@@ -118,17 +104,13 @@
             </tr>
             @empty
             <tr>
-                <td colspan="7" style="text-align: center; color: gray;">
-                    No logs found.
-                </td>
+                <td colspan="7" style="text-align:center; color:gray;">No logs found.</td>
             </tr>
             @endforelse
         </tbody>
-
     </table>
 
     {{ $logs->links('vendor.pagination.custom') }}
-
 </div>
 @endsection
 

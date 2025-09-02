@@ -15,21 +15,41 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $query = User::where('role', 'user');
-
-        if ($request->search) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('email', 'like', '%' . $request->search . '%')
-                ->orWhere('phone', 'like', '%' . $request->search . '%');
+        
+        // Search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('phone', 'like', '%' . $request->search . '%');
+            });
         }
 
-        if ($request->status) {
-            $query->where('status', $request->status);
+        // Sorting
+        if ($request->sort) {
+            switch ($request->sort) {
+                case 'newest':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                case 'oldest':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'name-asc':
+                    $query->orderBy('name', 'asc');
+                    break;
+                case 'name-desc':
+                    $query->orderBy('name', 'desc');
+                    break;
+            }
         }
 
-        $customers = $query->paginate(10);
+        $customers = $query->paginate(10)->appends($request->all());
+
         $this->logActivity('View', 'Customers', 'Viewed all customers');
+
         return view('admin.customers.index', compact('customers'));
     }
+
 
 
 
@@ -45,8 +65,13 @@ class CustomerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'nullable|string|max:11',
-            'password' => 'required|string|min:6',
+            'phone' => [
+                'nullable',
+                'regex:/^(010|011|012|015)[0-9]{8}$/'
+            ],
+            'password' => 'required|string|min:6|confirmed',
+        ], [
+            'phone.regex' => 'You must enter a valid Egyptian phone number.',
         ]);
 
         // Create the user once and store it in a variable
@@ -84,10 +109,14 @@ class CustomerController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-
             'email' => 'required|email|unique:users,email,' . $customer->id,
-
-            'password' => 'nullable|string|min:6',
+            'phone' => [
+                'nullable',
+                'regex:/^(010|011|012|015)[0-9]{8}$/'
+            ],
+            'password' => 'nullable|string|min:6|confirmed',
+        ], [
+            'phone.regex' => 'You must enter a valid Egyptian phone number.',
         ]);
 
 
@@ -115,6 +144,6 @@ class CustomerController extends Controller
 
         $this->logActivity('Delete', 'Customers', "Deleted customer ID: {$id}");
 
-        return redirect()->route('admin.customers.index');
+        return redirect()->route('admin.customers.index')->with('success', 'Customer Deleted successfully.');
     }
 }
