@@ -4,124 +4,144 @@
 
 @section('page-title', 'Create New Movie')
 
-@section('content')
-<div class="form-container">
-    <form action="{{ route('admin.movies.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="name">Movie Name</label>
-            <input type="text" name="name" id="name" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="genre">Genre</label>
-            <input type="text" name="genre" id="genre" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="duration">Duration</label>
-            <input type="text" name="duration" id="duration" class="form-control" placeholder="e.g., 2h 30m" required>
-        </div>
-        <div class="form-group">
-            <label for="release_date">Release Date</label>
-            <input type="date" name="release_date" id="release_date" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="rating">Rating</label>
-            <input type="text" name="rating" id="rating" class="form-control" placeholder="e.g., PG-13" required>
-        </div>
-        <div class="form-group">
-            <label for="director">Director</label>
-            <input type="text" name="director" id="director" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="cast">Cast</label>
-            <input type="text" name="cast" id="cast" class="form-control" placeholder="e.g., Actor 1, Actor 2">
-        </div>
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea name="description" id="description" class="form-control" rows="5"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="status">Status</label>
-            <select name="status" id="status" class="form-control" required>
-                <option value="Now Showing">Now Showing</option>
-                <option value="Coming Soon">Coming Soon</option>
-                <option value="Ended">Ended</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="poster">Poster URL</label>
-            <input type="url" name="poster" id="poster" class="form-control">
-        </div>
+@section('header-actions')
+<a href="{{ route('admin.movies.index') }}" class="btn-secondary">
+    <i class="fas fa-arrow-left"></i> Back to Movies
+</a>
+@endsection
 
-        <div class="form-actions">
-            <button type="submit" class="btn-primary">Create Movie</button>
-            <a href="{{ route('admin.movies.index') }}" class="btn-secondary">Cancel</a>
+
+@section('content')
+<div class="dashboard-section">
+    <div class="section-header">
+        <h2 class="section-title">Movie Information</h2>
+    </div>
+    
+    <form>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Movie Poster</label>
+            <div style="border: 2px dashed rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 30px; text-align: center; cursor: pointer;">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 48px; color: var(--text-secondary); margin-bottom: 15px;"></i>
+                <p style="color: var(--text-secondary);">Click to upload or drag and drop</p>
+                <p style="font-size: 12px; color: var(--text-secondary);">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+            </div>
+        </div>
+        
+        <div class="form-row" style="display: flex; gap: 20px; margin-bottom: 20px;">
+            <div class="form-group" style="flex: 1;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Title *</label>
+                <input type="text" style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--secondary); color: var(--text);">
+            </div>
+            
+            <div class="form-group" style="flex: 1;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Rating</label>
+                <select style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--secondary); color: var(--text);">
+                    <option value="G">G - General Audiences</option>
+                    <option value="PG">PG - Parental Guidance</option>
+                    <option value="PG-13">PG-13 - Parents Strongly Cautioned</option>
+                    <option value="R">R - Restricted</option>
+                    <option value="NC-17">NC-17 - Adults Only</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-row" style="display: flex; gap: 20px; margin-bottom: 20px;">
+            <div class="form-group" style="flex: 1;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Genre *</label>
+                <select style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--secondary); color: var(--text);">
+                    <option value="">Select genre</option>
+                    <option value="action">Action</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="drama">Drama</option>
+                    <option value="horror">Horror</option>
+                    <option value="sci-fi">Science Fiction</option>
+                    <option value="fantasy">Fantasy</option>
+                    <option value="romance">Romance</option>
+                    <option value="thriller">Thriller</option>
+                </select>
+            </div>
+            
+            <div class="form-group" style="flex: 1;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Duration (minutes) *</label>
+                <input type="number" min="1" style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--secondary); color: var(--text);">
+            </div>
+        </div>
+        
+        <div class="form-row" style="display: flex; gap: 20px; margin-bottom: 20px;">
+            <div class="form-group" style="flex: 1;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Release Date *</label>
+                <input type="date" style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--secondary); color: var(--text);">
+            </div>
+            
+            <div class="form-group" style="flex: 1;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Director</label>
+                <input type="text" style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--secondary); color: var(--text);">
+            </div>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Cast</label>
+            <input type="text" placeholder="Enter cast members separated by commas" style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--secondary); color: var(--text);">
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Description *</label>
+            <textarea rows="4" style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--secondary); color: var(--text);"></textarea>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);">Trailer URL</label>
+            <input type="url" placeholder="https://www.youtube.com/watch?v=..." style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--secondary); color: var(--text);">
+        </div>
+        
+        <div class="form-actions" style="display: flex; gap: 15px; margin-top: 30px;">
+            <button type="submit" class="btn-primary">
+                <i class="fas fa-save"></i> Create Movie
+            </button>
+            <button type="reset" class="btn-secondary">
+                <i class="fas fa-times"></i> Reset Form
+            </button>
         </div>
     </form>
 </div>
 @endsection
+
 @push('styles')
 <style>
-    .form-container {
-        background: #1e1e2d;
-        padding: 30px;
-        border-radius: 10px;
-        color: white;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 12px;
-        border-radius: 6px;
-        border: 1px solid #333;
-        background: #282836;
-        color: white;
-        font-size: 16px;
-    }
-
-    .form-control:focus {
-        outline: none;
-        border-color: #ef4444;
-    }
-
-    .form-actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 30px;
-    }
-
-    .btn-primary,
     .btn-secondary {
-        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 10px 20px;
         border-radius: 6px;
+        cursor: pointer;
         font-weight: 600;
         text-decoration: none;
-        cursor: pointer;
-        transition: background 0.3s;
-        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
     }
-
+    
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-primary {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
     .btn-primary:hover {
         background: #c40811;
-    }
-
-    .btn-secondary {
-        background: #4a4a60;
-        color: white;
-    }
-
-    .btn-secondary:hover {
-        background: #3a3a4c;
     }
 </style>
 @endpush

@@ -26,14 +26,14 @@
         <option>Drama</option>
         <option>Horror</option>
     </select>
-
+    
     <select class="filter-select">
         <option>All Status</option>
         <option>Now Showing</option>
         <option>Coming Soon</option>
         <option>Ended</option>
     </select>
-
+    
     <select class="filter-select">
         <option>Sort By</option>
         <option>Newest</option>
@@ -49,7 +49,7 @@
         <h2 class="section-title">All Movies</h2>
         <a href="#" class="view-all">Export CSV</a>
     </div>
-
+    
     <table class="data-table">
         <thead>
             <tr>
@@ -63,48 +63,124 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($movies as $movie)
             <tr>
                 <td>
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        <img src="{{ $movie->poster_url }}" alt="{{ $movie->title }}" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
+                        <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Spider-Man" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
                         <div>
-                            <div style="font-weight: 600;">{{ $movie->title }}</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">{{ $movie->rating }}</div>
+                            <div style="font-weight: 600;">Spider-Man: No Way Home</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">PG-13</div>
                         </div>
                     </div>
                 </td>
-                <td>{{ $movie->genre }}</td>
-                <td>{{ $movie->duration }}</td>
-                <td>{{ $movie->release_date }}</td>
+                <td>Action, Adventure</td>
+                <td>2h 28m</td>
+                <td>2021-12-17</td>
                 <td>
                     <div style="display: flex; align-items: center; gap: 5px;">
                         <i class="fas fa-star" style="color: gold;"></i>
-                        <span>{{ $movie->star_rating }}/5</span>
+                        <span>4.8/5</span>
                     </div>
                 </td>
-                <td>{{ $movie->status }}</td>
+                <td>Now Showing</td>
                 <td>
-                    <a href="{{ route('admin.movies.show', $movie->id) }}" class="action-btn"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('admin.movies.edit', $movie->id) }}" class="action-btn"><i class="fas fa-edit"></i></a>
-                    <form action="{{ route('admin.movies.destroy', $movie->id) }}" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="action-btn" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></button>
-                    </form>
+                    <a href="{{ route('admin.movies.show', 1) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.movies.edit', 1) }}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <button class="action-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
-            @endforeach
+            <tr>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="The Batman" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
+                        <div>
+                            <div style="font-weight: 600;">The Batman</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">PG-13</div>
+                        </div>
+                    </div>
+                </td>
+                <td>Action, Crime, Drama</td>
+                <td>2h 56m</td>
+                <td>2022-03-04</td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-star" style="color: gold;"></i>
+                        <span>4.7/5</span>
+                    </div>
+                </td>
+                <td>Now Showing</td>
+                <td>
+                    <a href="{{ route('admin.movies.show', 2) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.movies.edit', 2) }}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Black Panther" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
+                        <div>
+                            <div style="font-weight: 600;">Black Panther: Wakanda Forever</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">PG-13</div>
+                        </div>
+                    </div>
+                </td>
+                <td>Action, Adventure</td>
+                <td>2h 41m</td>
+                <td>2022-11-11</td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-star" style="color: gold;"></i>
+                        <span>4.6/5</span>
+                    </div>
+                </td>
+                <td>Now Showing</td>
+                <td>
+                    <a href="{{ route('admin.movies.show', 3) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.movies.edit', 3) }}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <img src="https://images.unsplash.com/photo-1585951237318-9ea5e175b891?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Top Gun" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
+                        <div>
+                            <div style="font-weight: 600;">Top Gun: Maverick</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">PG-13</div>
+                        </div>
+                    </div>
+                </td>
+                <td>Action, Drama</td>
+                <td>2h 11m</td>
+                <td>2022-05-27</td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-star" style="color: gold;"></i>
+                        <span>4.9/5</span>
+                    </div>
+                </td>
+                <td>Now Showing</td>
+                <td>
+                    <a href="{{ route('admin.movies.show', 4) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.movies.edit', 4) }}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
         </tbody>
     </table>
-
+    
     <!-- Table Footer -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
         <div style="color: var(--text-secondary); font-size: 14px;">
-            Showing {{ $movies->firstItem() }} to {{ $movies->lastItem() }} of {{ $movies->total() }} entries
+            Showing 1 to 4 of 24 entries
         </div>
         <div style="display: flex; gap: 10px;">
-            {{ $movies->links() }}
+            <button class="action-btn">Previous</button>
+            <button class="action-btn" style="background: var(--accent);">1</button>
+            <button class="action-btn">2</button>
+            <button class="action-btn">3</button>
+            <button class="action-btn">Next</button>
         </div>
     </div>
 </div>
@@ -112,79 +188,57 @@
 
 @push('styles')
 <style>
-    /* Filters */
     .filters {
         display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+        gap: 15px;
         margin-bottom: 20px;
-        align-items: center;
+        flex-wrap: wrap;
     }
-
+    
     .filter-select {
-        padding: 8px 12px;
+        background: var(--secondary);
+        color: var(--text);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 10px 15px;
         border-radius: 6px;
-        border: 1px solid #ccc;
         outline: none;
-        background-color: #f3f4f6;
-        color: #111827;
-        font-size: 14px;
     }
-
-    /* Buttons */
+    
     .btn-primary {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
         display: inline-flex;
         align-items: center;
-        gap: 5px;
-        padding: 8px 14px;
-        background-color: #ef4444;
-        /* accent color */
-        color: #fff;
+        gap: 8px;
+    }
+    
+    .btn-primary:hover {
+        background: #c40811;
+    }
+
+    .action-btn {
+        background: rgba(255, 255, 255, 0.1);
         border: none;
+        padding: 8px 12px;
         border-radius: 6px;
-        font-weight: 600;
         cursor: pointer;
+        margin-right: 5px;
+        color: var(--text);
         transition: background 0.3s;
         text-decoration: none;
-    }
-
-    .btn-primary:hover {
-        background-color: #c40811;
-        text-decoration: none;
-        color: #fff;
-    }
-
-    /* Action buttons in table */
-    .action-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 6px 10px;
-        border-radius: 6px;
-        background-color: #3b82f6;
-        /* blue for view */
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        margin-right: 4px;
-        transition: background 0.3s;
-        font-size: 14px;
     }
-
+    
     .action-btn:hover {
-        opacity: 0.85;
+        background: rgba(255, 255, 255, 0.2);
     }
-
-    /* Specific colors for edit/delete */
-    .action-btn:nth-child(2) {
-        background-color: #10b981;
-    }
-
-    /* edit: green */
-    .action-btn:nth-child(3) {
-        background-color: #ef4444;
-    }
-
-    /* delete: red */
 </style>
 @endpush
