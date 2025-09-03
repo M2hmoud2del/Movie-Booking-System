@@ -18,8 +18,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2)->nullable();
             $table->string('payment_method', 50)->nullable();
             $table->string('status', 20)->nullable();
-            $table->dateTime('created_at')->useCurrent();
-        });
+});
     }
 
     /**

@@ -28,7 +28,7 @@
             <!-- Main Content -->
             <div class="col-lg-10 col-md-9">
                 <div class="main-content">
-                    <form action="{{route('book.submit')}}" method="POST" id="booking-form">
+                    <form novalidate action="{{route('book.submit')}}" method="POST" id="booking-form">
                         @csrf
                     <div class="row">
                         <div class="col-lg-8">
@@ -37,8 +37,8 @@
                                 <div class="card-body">
                                     <div class="row mb-4">
                                         <div class="col-md-6">
-                                            <label for="movie" class="form-label">Select Movie</label>
-                                            <select class="form-select" id="movie">
+                                            <label  for="movie" class="form-label">Select Movie</label>
+                                            <select class="form-select" id="movie" name="movie_id">
                                                 <option selected>Choose a movie...</option>
                                                 @foreach ($movies as $m)
                                                     <option value="{{$m->id}}">{{$m->name}}</option>
@@ -46,25 +46,24 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="date" class="form-label">Select Date</label>
-                                            <input type="date" class="form-control" id="date" 
+                                            <label  class="form-label"  name="date">Select Date</label>
+                                            <input type="date" class="form-control" id="date" name="date" 
                                                 min="{{ \Carbon\Carbon::today()->toDateString() }}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <div class="col-md-6">
-                                            <label for="time" class="form-label">Select Time</label>
-                                            <select class="form-select" id="time">
+                                            <label  for="time" class="form-label">Select Time</label>
+                                            <select  name="time" class="form-select" id="time">
                                                 <option selected>Choose time...</option>
-                                                <option>10:00 AM</option>
-                                                <option>1:30 PM</option>
-                                                <option>5:00 PM</option>
-                                                <option>8:30 PM</option>
+                                                @foreach ($showtime as $show)
+                                                    <option value="{{$show->id}}">{{$show->start_time}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="Screen" class="form-label">ٍScreen</label>
-                                            <select class="form-select" id="Screen">
+                                            <label name="screen_id" for="Screen" class="form-label">ٍScreen</label>
+                                            <select class="form-select" id="Screen" name="screen_id">
                                                 <option selected>Select screen</option>
                                                 @foreach ($screenids as $screen)
                                                     <option value="{{$screen->id}}">{{$screen->screen_name}}</option>
@@ -83,6 +82,7 @@
                                             
                                         </div>
                                     </div>
+                                     <input type="hidden" name="selected_seats" id="selected_seats_input">
 
                                     <div class="text-center">
                                         <button class="btn btn-lg btn-danger">Proceed to Payment</button>
@@ -150,76 +150,66 @@
     <!-- Bootstrap JS -->
     @include('user/layouts/script')
     <script>
-    // All seats as JSON
-    const seats = @json($seats);
+        const seats = @json($seats);
+const bookedSeats = @json($booked->pluck('seat_id'));
+const seatMapContainer = document.getElementById('seat-map');
+const screenSelect = document.getElementById('Screen');
 
-    // Only the booked seat IDs
-    const bookedSeats = @json($booked->pluck('seat_id'));
+function renderSeats(screenId) {
+    seatMapContainer.innerHTML = '';
 
-    const seatMapContainer = document.getElementById('seat-map');
-    const screenSelect = document.getElementById('Screen');
+    if (!screenId) return; // prevent empty rendering
 
-    function renderSeats(screenId) {
-        seatMapContainer.innerHTML = '';
+    const filteredSeats = seats.filter(s => s.screen_id == screenId);
 
-        // Filter seats by selected screen
-        const filteredSeats = seats.filter(s => s.screen_id == screenId);
-
-        // Group seats by row
-        const rows = {};
-        filteredSeats.forEach(s => {
-            if (!rows[s.seat_row]) rows[s.seat_row] = [];
-            rows[s.seat_row].push(s);
-        });
-
-        // Render each row
-        for (let row in rows) {
-            const rowDiv = document.createElement('div');
-            rowDiv.className = 'd-flex justify-content-center flex-wrap mb-3';
-
-            rows[row].forEach(seat => {
-                const seatDiv = document.createElement('div');
-                seatDiv.className = 'seat';
-                seatDiv.dataset.seatId = seat.id; 
-
-                if (bookedSeats.includes(seat.id)) {
-                    seatDiv.classList.add('occupied');  // Already booked
-                    seatDiv.innerHTML = `<i class="bi bi-person-check-fill"></i>`;
-                } else {
-                    seatDiv.innerHTML = `<i class="bi bi-person-fill-add"></i>`;
-                    seatDiv.addEventListener('click', () => seatDiv.classList.toggle('selected'));
-                }
-
-                rowDiv.appendChild(seatDiv);
-            });
-
-            seatMapContainer.appendChild(rowDiv);
-        }
-    }
-
-    // Render seats when screen changes
-    screenSelect.addEventListener('change', function() {
-        renderSeats(this.value);
+    const rows = {};
+    filteredSeats.forEach(s => {
+        if (!rows[s.seat_row]) rows[s.seat_row] = [];
+        rows[s.seat_row].push(s);
     });
 
+    for (let row in rows) {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'd-flex justify-content-center flex-wrap mb-3';
 
-    document.getElementById('booking-form').addEventListener('submit', function(e) {
-    // Find all selected seat divs
+        rows[row].forEach(seat => {
+            const seatDiv = document.createElement('div');
+            seatDiv.className = 'seat';
+            seatDiv.dataset.seatId = seat.id;
+
+            if (bookedSeats.includes(seat.id)) {
+                seatDiv.classList.add('occupied');
+                seatDiv.innerHTML = `<i class="bi bi-person-check-fill"></i>`;
+            } else {
+                seatDiv.innerHTML = `<i class="bi bi-person-fill-add"></i>`;
+                seatDiv.addEventListener('click', () => seatDiv.classList.toggle('selected'));
+            }
+
+            rowDiv.appendChild(seatDiv);
+        });
+
+        seatMapContainer.appendChild(rowDiv);
+    }
+}
+
+screenSelect.addEventListener('change', function() {
+    renderSeats(this.value);
+});
+
+document.getElementById('booking-form').addEventListener('submit', function(e) {
     const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'))
-        .map(seat => seat.dataset.seatId); // get their IDs
+        .map(seat => seat.dataset.seatId);
 
     if(selectedSeats.length === 0){
-        e.preventDefault(); // prevent form submission
+        e.preventDefault();
         alert('Please select at least one seat!');
         return;
     }
 
-    // Put the selected seat IDs in the hidden input as comma-separated
     document.getElementById('selected_seats_input').value = selectedSeats.join(',');
 });
-   
-</script>
 
+    </script>
 </body>
 
 </html>

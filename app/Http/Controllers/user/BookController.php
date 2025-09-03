@@ -24,9 +24,9 @@ class BookController extends Controller
             ->orderBy('seat_number', 'asc')  // Then by number (1, 2, 3, …)
             ->get();
         $booked = BookedSeat::get();
-        $Showtime=Showtime::get();
+        $showtime=Showtime::get();
 
-        return view('user.bookings.bookings',compact('screenids', 'movies','seats', 'booked', 'Showtime'));
+        return view('user.bookings.bookings',compact('screenids', 'movies','seats', 'booked', 'showtime'));
     }
     public function submitBooking(Request $request)
     {
@@ -43,9 +43,9 @@ class BookController extends Controller
         $booking = Booking::create([
             'user_id' => Auth::user()->id,
             'movie_id' => $request->movie_id,
-            'screen_id' => $request->screen_id,
-            'date' => $request->date,
-            'time' => $request->time,
+
+            'showtime_id' => $request->time,
+            'screen_id' => $request->screen_id
         ]);
 
         // Save booked seats
@@ -56,6 +56,6 @@ class BookController extends Controller
             ]);
         }
 
-        return redirect()->route('booking.success')->with('success', 'Seats booked successfully!');
+        return redirect()->route('user.booking')->with('success', 'Seats booked successfully!');
     }
 }
