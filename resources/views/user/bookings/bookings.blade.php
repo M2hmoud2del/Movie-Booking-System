@@ -28,7 +28,8 @@
             <!-- Main Content -->
             <div class="col-lg-10 col-md-9">
                 <div class="main-content">
-                    
+                    <form action="{{route('book.submit')}}" method="POST" id="booking-form">
+                        @csrf
                     <div class="row">
                         <div class="col-lg-8">
                             <h4 class="section-title">Quick Booking</h4>
@@ -39,15 +40,15 @@
                                             <label for="movie" class="form-label">Select Movie</label>
                                             <select class="form-select" id="movie">
                                                 <option selected>Choose a movie...</option>
-                                                <option>Spider-Man: Across the Universe</option>
-                                                <option>Oppenheimer</option>
-                                                <option>Barbie: Dream Adventure</option>
-                                                <option>The Dark Knight</option>
+                                                @foreach ($movies as $m)
+                                                    <option value="{{$m->id}}">{{$m->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="date" class="form-label">Select Date</label>
-                                            <input type="date" class="form-control" id="date">
+                                            <input type="date" class="form-control" id="date" 
+                                                min="{{ \Carbon\Carbon::today()->toDateString() }}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
@@ -62,51 +63,24 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="tickets" class="form-label">Number of Tickets</label>
-                                            <select class="form-select" id="tickets">
-                                                <option selected>Select quantity...</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
+                                            <label for="Screen" class="form-label">ٍScreen</label>
+                                            <select class="form-select" id="Screen">
+                                                <option selected>Select screen</option>
+                                                @foreach ($screenids as $screen)
+                                                    <option value="{{$screen->id}}">{{$screen->screen_name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
-
+                                        
                                     <!-- Seat Selection -->
                                     <div class="mb-4">
                                         <h5 class="mb-3">Select Seats</h5>
                                         <div class="screen mb-3 text-center">SCREEN</div>
 
-                                        <div class="text-center seat-map">
+                                        <div id="seat-map" class="text-center seat-map">
                                             <!-- This would be generated dynamically in a real app -->
-                                            <div class="d-flex justify-content-center flex-wrap mb-3">
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i>
-                                                </div>
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i>
-                                                </div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                            </div>
-                                            <div class="d-flex justify-content-center flex-wrap mb-3">
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                            </div>
-                                            <div class="d-flex justify-content-center flex-wrap mb-3">
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i></div>
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                            </div>
+                                            
                                         </div>
                                     </div>
 
@@ -116,7 +90,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        </form>
                         <!-- Rewards Section -->
                         <div class="col-lg-4">
                             <h4 class="section-title">Your Rewards</h4>
@@ -175,6 +149,77 @@
 
     <!-- Bootstrap JS -->
     @include('user/layouts/script')
+    <script>
+    // All seats as JSON
+    const seats = @json($seats);
+
+    // Only the booked seat IDs
+    const bookedSeats = @json($booked->pluck('seat_id'));
+
+    const seatMapContainer = document.getElementById('seat-map');
+    const screenSelect = document.getElementById('Screen');
+
+    function renderSeats(screenId) {
+        seatMapContainer.innerHTML = '';
+
+        // Filter seats by selected screen
+        const filteredSeats = seats.filter(s => s.screen_id == screenId);
+
+        // Group seats by row
+        const rows = {};
+        filteredSeats.forEach(s => {
+            if (!rows[s.seat_row]) rows[s.seat_row] = [];
+            rows[s.seat_row].push(s);
+        });
+
+        // Render each row
+        for (let row in rows) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'd-flex justify-content-center flex-wrap mb-3';
+
+            rows[row].forEach(seat => {
+                const seatDiv = document.createElement('div');
+                seatDiv.className = 'seat';
+                seatDiv.dataset.seatId = seat.id; 
+
+                if (bookedSeats.includes(seat.id)) {
+                    seatDiv.classList.add('occupied');  // Already booked
+                    seatDiv.innerHTML = `<i class="bi bi-person-check-fill"></i>`;
+                } else {
+                    seatDiv.innerHTML = `<i class="bi bi-person-fill-add"></i>`;
+                    seatDiv.addEventListener('click', () => seatDiv.classList.toggle('selected'));
+                }
+
+                rowDiv.appendChild(seatDiv);
+            });
+
+            seatMapContainer.appendChild(rowDiv);
+        }
+    }
+
+    // Render seats when screen changes
+    screenSelect.addEventListener('change', function() {
+        renderSeats(this.value);
+    });
+
+
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+    // Find all selected seat divs
+    const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'))
+        .map(seat => seat.dataset.seatId); // get their IDs
+
+    if(selectedSeats.length === 0){
+        e.preventDefault(); // prevent form submission
+        alert('Please select at least one seat!');
+        return;
+    }
+
+    // Put the selected seat IDs in the hidden input as comma-separated
+    document.getElementById('selected_seats_input').value = selectedSeats.join(',');
+});
+   
+</script>
+
 </body>
 
 </html>
