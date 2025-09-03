@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-    
+
     <title>CineMax - User Movies</title>
-    
+
     @include('user/layouts/head')
     <link rel="stylesheet" href="{{ asset('user/assets/css/main.css') }}">
     <style>
