@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\user\HistoryController as UserHistoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\Admin\DashboardController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Admin\AdminLogController;
 use App\Http\Controllers\user\MovieController as UserMovieController;
 use App\Http\Controllers\user\BookController;
 use App\Http\Controllers\user\DashboardController as UserDashboardController;
+
 use App\Http\Controllers\user\UserController;
 
 Route::get('/', function () {
@@ -75,7 +77,7 @@ Route::prefix('User')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/booking', [BookController::class, 'booking'])->name('user.booking');
     Route::post('/book/submit', [BookController::class, 'submitBooking'])->name('book.submit');
 
-    Route::get('/history', [UserController::class, 'history'])->name('user.history');
+    Route::get('/history', [UserHistoryController::class, 'history'])->name('user.history');
     
 });
 
