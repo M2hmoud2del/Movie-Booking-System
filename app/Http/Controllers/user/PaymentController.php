@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 
 
-use App\Http\Controllers\Controller;   // لازم عشان middleware يشتغل
+use App\Http\Controllers\Controller;   // Required so that middleware works
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 
