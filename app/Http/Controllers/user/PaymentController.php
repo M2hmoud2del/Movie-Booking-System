@@ -19,7 +19,7 @@ class PaymentController extends Controller
     public function payments()
     {
         // كل الحجوزات الخاصة بالمستخدم مع الفيلم والشو تايم
-$bookings = Booking::with(['showtime.movie'])->get();
+$bookings = Booking::with(['showtime.movie'])->where('user_id', Auth::id())->get();
 
         // الأفلام الفريدة من الحجوزات
         $movies = $bookings->map(function ($b) {
