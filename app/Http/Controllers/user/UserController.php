@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\user;
+
 use App\Models\Movie;
 use App\Models\Showtime;
 
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     //
-    
+
     public function dashboard()
     {
         return view('user.dashboard.dashboard');
@@ -18,10 +19,12 @@ class UserController extends Controller
 
     public function movies()
     {
-        return view('user.movies.movies');
+        $movies = Movie::all();
+
+        return view('user.movies.movies', compact('movies'));
     }
 
-public function showtimes()
+    public function showtimes()
     {
         $showtimes = Showtime::with('movie', 'screen')->get();
         return view('user.Showtimes.Showtimes', compact('showtimes'));
@@ -32,7 +35,7 @@ public function showtimes()
         return view('user.payments.payments');
     }
 
-    
+
     public function history()
     {
         return view('user.history.history');
