@@ -5,39 +5,10 @@
 @section('page-title', 'Payments Management')
 
 @section('header-actions')
-<div class="search-box">
-    <i class="fas fa-search"></i>
-    <input type="text" placeholder="Search payments...">
-</div>
 @endsection
 
 
 @section('content')
-<!-- Filters -->
-<div class="filters">
-    <select class="filter-select">
-        <option>All Payment Methods</option>
-        <option>Credit Card</option>
-        <option>Debit Card</option>
-        <option>PayPal</option>
-        <option>Cash</option>
-    </select>
-    
-    <select class="filter-select">
-        <option>All Status</option>
-        <option>Completed</option>
-        <option>Pending</option>
-        <option>Failed</option>
-        <option>Refunded</option>
-    </select>
-    
-    <select class="filter-select">
-        <option>Last 7 Days</option>
-        <option>Last 30 Days</option>
-        <option>Last 90 Days</option>
-        <option>Custom Range</option>
-    </select>
-</div>
 
 <!-- Payment Summary Cards -->
 <div class="stats-container">
@@ -86,7 +57,6 @@
 <div class="dashboard-section">
     <div class="section-header">
         <h2 class="section-title">All Payments</h2>
-        <a href="#" class="view-all">Export CSV</a>
     </div>
     
     <table class="data-table">

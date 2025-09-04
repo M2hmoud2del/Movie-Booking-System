@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLogController;
 use App\Http\Controllers\user\MovieController as UserMovieController;
+use App\Http\Controllers\user\BookController;
+use App\Http\Controllers\user\DashboardController as UserDashboardController;
 use App\Http\Controllers\user\UserController;
 
 Route::get('/', function () {
@@ -67,11 +69,14 @@ Route::prefix('admin')->middleware(['auth', 'verified', IsAdmin::class])->name('
 //User Routes
 Route::prefix('User')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-    Route::get('/movies', [UserMovieController::class, 'movies'])->name('user.movies');
+    Route::get('/movies', [UserController::class, 'movies'])->name('user.movies');
     Route::get('/showtimes', [UserController::class, 'showtimes'])->name('user.showtimes');
     Route::get('/payments', [UserController::class, 'payments'])->name('user.payments');
-    Route::get('/booking', [UserController::class, 'booking'])->name('user.booking');
+    Route::get('/booking', [BookController::class, 'booking'])->name('user.booking');
+    Route::post('/book/submit', [BookController::class, 'submitBooking'])->name('book.submit');
+
     Route::get('/history', [UserController::class, 'history'])->name('user.history');
+    
 });
 
 

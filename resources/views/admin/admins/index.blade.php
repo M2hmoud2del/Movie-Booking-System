@@ -6,8 +6,15 @@
 
 @section('header-actions')
 <div class="search-box">
-    <i class="fas fa-search"></i>
-    <input type="text" placeholder="Search admins...">
+    <form method="GET" action="{{ route('admin.admins.index') }}" style="display: flex; align-items: center;">
+        <i class="fas fa-search"></i>
+        <input
+            type="text"
+            name="search"
+            placeholder="Search admins..."
+            value="{{ request('search') }}"
+            style="border:none; background:transparent; outline:none; padding-left:8px; color:var(--text);">
+    </form>
 </div>
 
 <a href="{{ route('admin.admins.create') }}" class="btn-primary">
@@ -18,26 +25,38 @@
 @section('content')
 <!-- Filters -->
 <div class="filters">
-    <select class="filter-select">
-        <option>All Admins</option>
-        <option>Active</option>
-        <option>Inactive</option>
-    </select>
-    
-    <select class="filter-select">
-        <option>Sort By</option>
-        <option>Newest</option>
-        <option>Oldest</option>
-        <option>Name (A-Z)</option>
-        <option>Name (Z-A)</option>
-    </select>
+    <form method="GET" action="{{ route('admin.admins.index') }}">
+        <select name="sort" class="filter-select" onchange="this.form.submit()">
+            <option value="">Sort By</option>
+            <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
+            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest</option>
+            <option value="name-asc" {{ request('sort') == 'name-asc' ? 'selected' : '' }}>Name (A-Z)</option>
+            <option value="name-desc" {{ request('sort') == 'name-desc' ? 'selected' : '' }}>Name (Z-A)</option>
+        </select>
+    </form>
 </div>
 
 <!-- Admins Table -->
 <div class="dashboard-section">
+    @if (session('success'))
+    @php
+        $message = session('success');
+        $alertClass = 'alert-success';
+        if (Str::contains(strtolower($message), 'update')) {
+            $alertClass = 'alert-warning';
+        } elseif (Str::contains(strtolower($message), 'create')) {
+            $alertClass = 'alert-info';
+        } elseif (Str::contains(strtolower($message), 'delete')) {
+            $alertClass = 'alert-danger';
+        }
+    @endphp
+    <div class="alert {{ $alertClass }}">
+        {{ $message }}
+    </div>
+    @endif
+
     <div class="section-header">
         <h2 class="section-title">All Administrators</h2>
-        <a href="#" class="view-all">Export CSV</a>
     </div>
     
     <table class="data-table">
@@ -48,79 +67,34 @@
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Join Date</th>
-                <th>Last Login</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
+            @foreach ($admins as $admin)
             <tr>
-                <td>#ADM001</td>
-                <td>John Doe</td>
-                <td>john.doe@cinemax.com</td>
-                <td>(555) 123-4567</td>
-                <td>2023-01-15</td>
-                <td>2023-06-15 14:30</td>
+                <td>#ADM{{ str_pad($admin->id, 3, '0', STR_PAD_LEFT) }}</td>
+                <td>{{ $admin->name }}</td>
+                <td>{{ $admin->email }}</td>
+                <td>{{ $admin->phone }}</td>
+                <td>{{ $admin->created_at->format('Y-m-d') }}</td>
                 <td>
-                    <a href="{{ route('admin.admins.show', 1) }}" class="action-btn"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('admin.admins.edit', 1) }}" class="action-btn"><i class="fas fa-edit"></i></a>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                    <a href="{{ route('admin.admins.show', $admin->id) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.admins.edit', $admin->id) }}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <form action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="action-btn" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></button>
+                    </form>
                 </td>
             </tr>
-            <tr>
-                <td>#ADM002</td>
-                <td>Jane Smith</td>
-                <td>jane.smith@cinemax.com</td>
-                <td>(555) 987-6543</td>
-                <td>2023-02-20</td>
-                <td>2023-06-16 09:15</td>
-                <td>
-                    <a href="{{ route('admin.admins.show', 2) }}" class="action-btn"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('admin.admins.edit', 2) }}" class="action-btn"><i class="fas fa-edit"></i></a>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
-                </td>
-            </tr>
-            <tr>
-                <td>#ADM003</td>
-                <td>Robert Johnson</td>
-                <td>robert.j@cinemax.com</td>
-                <td>(555) 456-7890</td>
-                <td>2023-03-10</td>
-                <td>2023-06-14 16:45</td>
-                <td>
-                    <a href="{{ route('admin.admins.show', 3) }}" class="action-btn"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('admin.admins.edit', 3) }}" class="action-btn"><i class="fas fa-edit"></i></a>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
-                </td>
-            </tr>
-            <tr>
-                <td>#ADM004</td>
-                <td>Sarah Williams</td>
-                <td>sarah.w@cinemax.com</td>
-                <td>(555) 789-0123</td>
-                <td>2023-04-05</td>
-                <td>2023-06-10 11:20</td>
-                <td>
-                    <a href="{{ route('admin.admins.show', 4) }}" class="action-btn"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('admin.admins.edit', 4) }}" class="action-btn"><i class="fas fa-edit"></i></a>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
-                </td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
     
     <!-- Table Footer -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-        <div style="color: var(--text-secondary); font-size: 14px;">
-            Showing 1 to 4 of 12 entries
-        </div>
-        <div style="display: flex; gap: 10px;">
-            <button class="action-btn">Previous</button>
-            <button class="action-btn" style="background: var(--accent);">1</button>
-            <button class="action-btn">2</button>
-            <button class="action-btn">3</button>
-            <button class="action-btn">Next</button>
-        </div>
-    </div>
+    {{ $admins->links('vendor.pagination.custom') }}
+
 </div>
 @endsection
 
@@ -132,7 +106,7 @@
         margin-bottom: 20px;
         flex-wrap: wrap;
     }
-    
+
     .filter-select {
         background: var(--secondary);
         color: var(--text);
@@ -141,7 +115,7 @@
         border-radius: 6px;
         outline: none;
     }
-    
+
     .btn-primary {
         background: var(--accent);
         color: white;
@@ -155,7 +129,7 @@
         align-items: center;
         gap: 8px;
     }
-    
+
     .btn-primary:hover {
         background: #c40811;
     }
@@ -174,7 +148,7 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .action-btn:hover {
         background: rgba(255, 255, 255, 0.2);
     }

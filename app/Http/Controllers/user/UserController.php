@@ -8,10 +8,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     //
-    public function dashboard()
-    {
-        return view('user.dashboard.dashboard');
-    }
+    
 
    
 
@@ -25,11 +22,7 @@ class UserController extends Controller
         return view('user.payments.payments');
     }
 
-    public function booking()
-    {
-        return view('user.bookings.bookings');
-    }
-
+    
     public function history()
     {
         return view('user.history.history');

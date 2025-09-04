@@ -9,7 +9,7 @@ class BookedSeat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['booking_id', 'seat_id'];
+    protected $fillable = ['booking_id', 'seat_id', 'showtime_id'];
 
     public function booking()
     {
