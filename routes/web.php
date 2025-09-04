@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLogController;
 use App\Http\Controllers\user\BookController;
+use App\Http\Controllers\user\DashboardController as UserDashboardController;
 use App\Http\Controllers\user\UserController;
 
 Route::get('/', function () {
@@ -66,7 +67,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', IsAdmin::class])->name('
 
 //User Routes
 Route::prefix('User')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/movies', [UserController::class, 'movies'])->name('user.movies');
     Route::get('/showtimes', [UserController::class, 'showtimes'])->name('user.showtimes');
     Route::get('/payments', [UserController::class, 'payments'])->name('user.payments');

@@ -36,9 +36,10 @@
                     <div class="row mb-4">
                         <div class="col-md-12">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h3>Welcome back, Sarah!</h3>
+                                <h3>Welcome back, {{Auth::user()->name}}!</h3>
                                 <button class="custom-btn">
-                                    <i class="fas fa-ticket-alt me-2"></i>Book Tickets
+                                    
+                                    <a href="{{route('user.booking')}}"><i class="fas fa-ticket-alt me-2"></i>Book Tickets</a>
                                 </button>
                             </div>
                             <p class="text-muted">Here's what's happening at your cinema today.</p>
@@ -47,24 +48,15 @@
 
                     <!-- Stats Section -->
                     <div class="row mb-5">
+                        
+                        
                         <div class="col-md-3 col-sm-6 mb-4">
                             <div class="stat-card">
                                 <div class="icon bg-danger">
                                     <i class="fas fa-ticket-alt text-white"></i>
                                 </div>
                                 <h5>Bookings</h5>
-                                <h3>12</h3>
-                                <p class="text-muted">+2 from last week</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-4">
-                            <div class="stat-card">
-                                <div class="icon bg-info">
-                                    <i class="fas fa-film text-white"></i>
-                                </div>
-                                <h5>Movies Watched</h5>
-                                <h3>24</h3>
-                                <p class="text-muted">+4 from last month</p>
+                                <h3>{{$numbookings}} times</h3>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 mb-4">
@@ -73,8 +65,7 @@
                                     <i class="fas fa-star text-white"></i>
                                 </div>
                                 <h5>Loyalty Points</h5>
-                                <h3>1,250</h3>
-                                <p class="text-muted">Earn 250 more for free ticket</p>
+                                <h3>{{$totalSpent*1.75}}</h3>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6 mb-4">
@@ -83,8 +74,7 @@
                                     <i class="fas fa-wallet text-white"></i>
                                 </div>
                                 <h5>Total Spent</h5>
-                                <h3>$348</h3>
-                                <p class="text-muted">$48 this month</p>
+                                <h3>${{$totalSpent}}</h3>
                             </div>
                         </div>
                     </div>
@@ -94,70 +84,45 @@
                     <!-- Upcoming Bookings -->
                     <div class="row mb-5">
                         <div class="col-12">
-                            <h4 class="section-title">Upcoming Bookings</h4>
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Movie</th>
-                                            <th>Date & Time</th>
-                                            <th>Theater</th>
-                                            <th>Seats</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3"
-                                                        width="40" height="50" class="rounded me-3"
-                                                        style="object-fit: cover;">
-                                                    <div>Spider-Man: Across the Universe</div>
-                                                </div>
-                                            </td>
-                                            <td>Today, 7:30 PM</td>
-                                            <td>Screen 5</td>
-                                            <td>E12, E13</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary">View Ticket</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3"
-                                                        width="40" height="50" class="rounded me-3"
-                                                        style="object-fit: cover;">
-                                                    <div>Oppenheimer</div>
-                                                </div>
-                                            </td>
-                                            <td>Tomorrow, 6:00 PM</td>
-                                            <td>Screen 2</td>
-                                            <td>H7, H8</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary">View Ticket</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3"
-                                                        width="40" height="50" class="rounded me-3"
-                                                        style="object-fit: cover;">
-                                                    <div>The Dark Knight</div>
-                                                </div>
-                                            </td>
-                                            <td>Aug 15, 4:45 PM</td>
-                                            <td>Screen 3</td>
-                                            <td>F15, F16</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary">View Ticket</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <h4 class="section-title">Top movies</h4>
+                            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3"
+                                    class="d-block w-100" alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>First slide label</h5>
+                                    <p>Some representative placeholder content for the first slide.</p>
+                                </div>
                             </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3"
+                                    class="d-block w-100" alt="Second slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Second slide label</h5>
+                                    <p>Some representative placeholder content for the second slide.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3"
+                                    class="d-block w-100" alt="Third slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Third slide label</h5>
+                                    <p>Some representative placeholder content for the third slide.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                         </div>
                     </div>
 

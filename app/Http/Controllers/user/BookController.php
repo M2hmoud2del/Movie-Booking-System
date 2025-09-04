@@ -25,10 +25,10 @@ class BookController extends Controller
             ->orderBy('seat_number', 'asc')  // Then by number (1, 2, 3, …)
             ->get();
         $booked = BookedSeat::select('showtime_id', 'seat_id')->get();
-
+        $totalSpent = Booking::where('user_id', Auth::id())->sum('amount');
         $showtimes=Showtime::get();
 
-        return view('user.bookings.bookings',compact('screenids', 'movies','seats', 'booked', 'showtimes'));
+        return view('user.bookings.bookings',compact('screenids', 'movies','seats', 'booked', 'showtimes', 'totalSpent'));
     }
     public function submitBooking(BookRequest $request)
     {

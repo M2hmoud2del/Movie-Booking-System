@@ -108,8 +108,8 @@
                             <div class="card mb-4">
                                 <div class="card-body text-center">
                                     <h5>Loyalty Points</h5>
-                                    <h2 class="text-primary">1,250</h2>
-                                    <p>Earn 250 more points for a free ticket</p>
+                                    <h2 class="text-primary">{{$totalSpent*1.75}}</h2>
+                                    <p>Earn more points for a free ticket</p>
                                     <div class="progress">
                                         <div class="progress-bar bg-success" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
@@ -118,39 +118,7 @@
                                 </div>
                             </div>
 
-                            <h4 class="section-title">Special Offers</h4>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex mb-3">
-                                        <div class="bg-danger text-white p-2 rounded me-3">
-                                            <i class="fas fa-ticket-alt fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6>2-for-1 Tuesday</h6>
-                                            <p class="small text-muted">Get 2 tickets for the price of 1 every Tuesday
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex mb-3">
-                                        <div class="bg-primary text-white p-2 rounded me-3">
-                                            <i class="fas fa-popcorn fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6>Free Popcorn</h6>
-                                            <p class="small text-muted">Free large popcorn with 3+ tickets</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="bg-warning text-dark p-2 rounded me-3">
-                                            <i class="fas fa-star fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h6>Student Discount</h6>
-                                            <p class="small text-muted">20% off for students with valid ID</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
