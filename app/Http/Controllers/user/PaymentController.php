@@ -12,7 +12,7 @@ class PaymentController extends Controller
 {
     public function __construct()
     {
-        // لازم المستخدم يكون عامل تسجيل دخول
+        // The user must be logged in
         $this->middleware('auth');
     }
 
