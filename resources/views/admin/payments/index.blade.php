@@ -1,12 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title', 'Payments Management - Movie Booking System')
-
 @section('page-title', 'Payments Management')
-
-@section('header-actions')
-@endsection
-
 
 @section('content')
 
@@ -17,38 +12,28 @@
             <i class="fas fa-check-circle"></i>
         </div>
         <div class="stat-text">
-            <h3>$24,850</h3>
+            <h3>${{ number_format($totalRevenue, 2) }}</h3>
             <p>Total Revenue</p>
         </div>
     </div>
-    
+
     <div class="stat-card">
         <div class="stat-icon" style="background: rgba(52, 152, 219, 0.2); color: #3498db;">
             <i class="fas fa-credit-card"></i>
         </div>
         <div class="stat-text">
-            <h3>1,128</h3>
+            <h3>{{ $successfulPayments }}</h3>
             <p>Successful Payments</p>
         </div>
     </div>
-    
+
     <div class="stat-card">
         <div class="stat-icon" style="background: rgba(231, 76, 60, 0.2); color: #e74c3c;">
             <i class="fas fa-times-circle"></i>
         </div>
         <div class="stat-text">
-            <h3>42</h3>
+            <h3>{{ $failedPayments }}</h3>
             <p>Failed Payments</p>
-        </div>
-    </div>
-    
-    <div class="stat-card">
-        <div class="stat-icon" style="background: rgba(243, 156, 18, 0.2); color: #f39c12;">
-            <i class="fas fa-exchange-alt"></i>
-        </div>
-        <div class="stat-text">
-            <h3>18</h3>
-            <p>Refunded Payments</p>
         </div>
     </div>
 </div>
@@ -58,153 +43,69 @@
     <div class="section-header">
         <h2 class="section-title">All Payments</h2>
     </div>
-    
+
     <table class="data-table">
         <thead>
             <tr>
-                <th>Payment ID</th>
                 <th>Booking ID</th>
                 <th>Customer</th>
                 <th>Amount</th>
                 <th>Payment Method</th>
                 <th>Date</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th>Actions</th> <!-- New Column -->
             </tr>
         </thead>
         <tbody>
+            @forelse($payments as $payment)
             <tr>
-                <td>#PAY001</td>
-                <td>#BK001</td>
-                <td>John Doe</td>
-                <td>$25.00</td>
-                <td>Credit Card</td>
-                <td>2023-06-15 19:25</td>
-                <td><span class="status active">Completed</span></td>
+                <td>#BK{{ str_pad($payment->id, 3, '0', STR_PAD_LEFT) }}</td>
+                <td>{{ $payment->user->name ?? 'Unknown' }}</td>
+                <td>${{ number_format($payment->amount, 2) }}</td>
+                <td>{{ $payment->payment_method }}</td>
+                <td>{{ $payment->created_at->format('Y-m-d H:i') }}</td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-print"></i></button>
+                    @php $status = strtolower($payment->status); @endphp
+                    @if($status === 'completed')
+                    <span class="status active">Completed</span>
+                    @elseif($status === 'failed')
+                    <span class="status inactive">Failed</span>
+                    @else
+                    <span class="status pending">Pending</span>
+                    @endif
                 </td>
-            </tr>
-            <tr>
-                <td>#PAY002</td>
-                <td>#BK002</td>
-                <td>Jane Smith</td>
-                <td>$28.00</td>
-                <td>PayPal</td>
-                <td>2023-06-15 19:40</td>
-                <td><span class="status active">Completed</span></td>
                 <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-print"></i></button>
-                </td>
-            </tr>
-            <tr>
-                <td>#PAY003</td>
-                <td>#BK003</td>
-                <td>Robert Johnson</td>
-                <td>$26.00</td>
-                <td>Debit Card</td>
-                <td>2023-06-16 17:15</td>
-                <td><span class="status pending">Pending</span></td>
-                <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-print"></i></button>
-                </td>
-            </tr>
-            <tr>
-                <td>#PAY004</td>
-                <td>#BK004</td>
-                <td>Sarah Williams</td>
-                <td>$30.00</td>
-                <td>Credit Card</td>
-                <td>2023-06-16 20:05</td>
-                <td><span class="status active">Completed</span></td>
-                <td>
-                    <button class="action-btn"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn"><i class="fas fa-print"></i></button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <!-- Table Footer -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-        <div style="color: var(--text-secondary); font-size: 14px;">
-            Showing 1 to 4 of 1,128 entries
-        </div>
-        <div style="display: flex; gap: 10px;">
-            <button class="action-btn">Previous</button>
-            <button class="action-btn" style="background: var(--accent);">1</button>
-            <button class="action-btn">2</button>
-            <button class="action-btn">3</button>
-            <button class="action-btn">Next</button>
-        </div>
-    </div>
-</div>
+                    @if($status === 'pending')
+                    <form action="{{ route('admin.payments.updateStatus', $payment->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="status" value="completed">
+                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                    </form>
 
-<!-- Payment Methods Summary -->
-<div class="dashboard-section">
-    <div class="section-header">
-        <h2 class="section-title">Payment Methods Summary</h2>
-        <a href="#" class="view-all">View Details</a>
-    </div>
-    
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Payment Method</th>
-                <th>Transactions</th>
-                <th>Total Amount</th>
-                <th>Success Rate</th>
+                    <form action="{{ route('admin.payments.updateStatus', $payment->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="status" value="failed">
+                        <button type="submit" class="btn btn-danger btn-sm">Deny</button>
+                    </form>
+                    @else
+                    <span style="color: #888;">No actions</span>
+                    @endif
+                </td>
             </tr>
-        </thead>
-        <tbody>
+            @empty
             <tr>
-                <td>Credit Card</td>
-                <td>684</td>
-                <td>$17,100</td>
-                <td>98.5%</td>
+                <td colspan="7">No payments found.</td>
             </tr>
-            <tr>
-                <td>Debit Card</td>
-                <td>312</td>
-                <td>$7,800</td>
-                <td>97.2%</td>
-            </tr>
-            <tr>
-                <td>PayPal</td>
-                <td>198</td>
-                <td>$4,950</td>
-                <td>99.0%</td>
-            </tr>
-            <tr>
-                <td>Cash</td>
-                <td>34</td>
-                <td>$850</td>
-                <td>100%</td>
-            </tr>
+            @endforelse
         </tbody>
     </table>
+
+
+    <!-- Pagination -->
+    <div style="margin-top: 20px;">
+        {{ $payments->links() }}
+    </div>
 </div>
 @endsection
-
-@push('styles')
-<style>
-    .filters {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-    }
-    
-    .filter-select {
-        background: var(--secondary);
-        color: var(--text);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 10px 15px;
-        border-radius: 6px;
-        outline: none;
-    }
-</style>
-@endpush
