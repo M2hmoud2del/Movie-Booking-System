@@ -1,28 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <title>CineMax - Showtimes</title>
-    
+
     @include('user/layouts/head')
     <link rel="stylesheet" href="{{ asset('user/assets/css/main.css') }}">
     <style>
-        
-
-        /* END SIDEBAR STYLES */
-
-
         #showseide {
-        background-color: var(--sidebar-hover)gc;
-        color: white;
-        border-left: 4px solid var(--sidebar-active);
+            background-color: var(--sidebar-hover);
+            color: white;
+            border-left: 4px solid var(--sidebar-active);
         }
-
-
-
-
     </style>
 </head>
 
@@ -86,158 +75,61 @@
                             </div>
                         </div>
 
-                        <!-- Showtimes List -->
                         <div class="row">
                             <div class="col-12">
-                                <!-- Movie 1 -->
-                                <div class="theater-card">
-                                    <div class="theater-header">
-                                        <h5 class="mb-0">Spider-Man: Across the Universe</h5>
-                                        <p class="text-muted mb-0">Action, Adventure | 2h 20m | PG-13</p>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3 mb-3">
-                                                <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3"
-                                                    class="img-fluid rounded" alt="Movie Poster">
-                                            </div>
-                                            <div class="col-md-9">
-                                                <h6 class="mb-3">CineMax Downtown</h6>
-                                                <div class="showtime-slots mb-4">
-                                                    <span class="showtime-slot">10:00 AM</span>
-                                                    <span class="showtime-slot">1:30 PM</span>
-                                                    <span class="showtime-slot">4:45 PM</span>
-                                                    <span class="showtime-slot">7:30 PM</span>
-                                                    <span class="showtime-slot">10:15 PM</span>
-                                                </div>
+                                @foreach($showtimes->groupBy('movie_id') as $movieId => $movieShowtimes)
+                                    @php
+                                        $movie = $movieShowtimes->first()->movie;
+                                    @endphp
 
-                                                <h6 class="mb-3">CineMax Westside</h6>
-                                                <div class="showtime-slots mb-4">
-                                                    <span class="showtime-slot">10:30 AM</span>
-                                                    <span class="showtime-slot">1:45 PM</span>
-                                                    <span class="showtime-slot">5:00 PM</span>
-                                                    <span class="showtime-slot">8:00 PM</span>
-                                                    <span class="showtime-slot">10:45 PM</span>
+                                    <div class="theater-card mb-4">
+                                        <div class="theater-header">
+                                            <h5 class="mb-0">{{ $movie->name }}</h5>
+                                            <p class="text-muted mb-0">
+                                                {{ $movie->genre ?? '' }} |
+                                                {{ $movie->duration ?? '' }} |
+                                                Rating: {{ $movie->rating ?? '' }}
+                                            </p>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3 mb-3">
+                                                    @if($movie->poster)
+                                                        <img src="{{ asset('storage/'.$movie->poster) }}"
+                                                             class="img-fluid rounded"
+                                                             alt="{{ $movie->name }}">
+                                                    @else
+                                                        <img src="{{ asset('user/assets/img/default-poster.jpg') }}"
+                                                             class="img-fluid rounded"
+                                                             alt="No Poster">
+                                                    @endif
                                                 </div>
-
-                                                <h6 class="mb-3">CineMax Eastend</h6>
-                                                <div class="showtime-slots">
-                                                    <span class="showtime-slot">11:00 AM</span>
-                                                    <span class="showtime-slot">2:15 PM</span>
-                                                    <span class="showtime-slot">5:30 PM</span>
-                                                    <span class="showtime-slot">8:30 PM</span>
+                                                <div class="col-md-9">
+                                                    @foreach($movieShowtimes->groupBy('screen_id') as $screenId => $screenShowtimes)
+                                                        <h6 class="mb-3">{{ $screenShowtimes->first()->screen->name ?? 'Unknown Screen' }}</h6>
+                                                        <div class="showtime-slots mb-4">
+                                                            @foreach($screenShowtimes as $showtime)
+                                                                <span class="showtime-slot">
+                                                                    {{ \Carbon\Carbon::parse($showtime->start_time)->format('h:i A') }}
+                                                                </span>
+                                                                <span class="badge bg-secondary ms-2">
+                                                                    {{ $showtime->date }}
+                                                                </span>
+                                                                <span class="badge bg-success ms-2">
+                                                                    ${{ $showtime->price }}
+                                                                </span>
+                                                            @endforeach
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <!-- Movie 2 -->
-                                <div class="theater-card">
-                                    <div class="theater-header">
-                                        <h5 class="mb-0">Oppenheimer</h5>
-                                        <p class="text-muted mb-0">Biography, Drama | 3h 00m | R</p>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3 mb-3">
-                                                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3"
-                                                    class="img-fluid rounded" alt="Movie Poster">
-                                            </div>
-                                            <div class="col-md-9">
-                                                <h6 class="mb-3">CineMax Downtown</h6>
-                                                <div class="showtime-slots mb-4">
-                                                    <span class="showtime-slot">11:30 AM</span>
-                                                    <span class="showtime-slot">3:30 PM</span>
-                                                    <span class="showtime-slot">7:00 PM</span>
-                                                </div>
-
-                                                <h6 class="mb-3">CineMax Westside</h6>
-                                                <div class="showtime-slots mb-4">
-                                                    <span class="showtime-slot">12:00 PM</span>
-                                                    <span class="showtime-slot">4:00 PM</span>
-                                                    <span class="showtime-slot">7:30 PM</span>
-                                                </div>
-
-                                                <h6 class="mb-3">CineMax Eastend</h6>
-                                                <div class="showtime-slots">
-                                                    <span class="showtime-slot">12:30 PM</span>
-                                                    <span class="showtime-slot">4:30 PM</span>
-                                                    <span class="showtime-slot">8:00 PM</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Movie 3 -->
-                                <div class="theater-card">
-                                    <div class="theater-header">
-                                        <h5 class="mb-0">Barbie: Dream Adventure</h5>
-                                        <p class="text-muted mb-0">Comedy, Fantasy | 1h 54m | PG</p>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3 mb-3">
-                                                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3"
-                                                    class="img-fluid rounded" alt="Movie Poster">
-                                            </div>
-                                            <div class="col-md-9">
-                                                <h6 class="mb-3">CineMax Downtown</h6>
-                                                <div class="showtime-slots mb-4">
-                                                    <span class="showtime-slot">10:15 AM</span>
-                                                    <span class="showtime-slot">12:45 PM</span>
-                                                    <span class="showtime-slot">3:15 PM</span>
-                                                    <span class="showtime-slot">6:00 PM</span>
-                                                    <span class="showtime-slot">8:45 PM</span>
-                                                </div>
-
-                                                <h6 class="mb-3">CineMax Westside</h6>
-                                                <div class="showtime-slots">
-                                                    <span class="showtime-slot">11:00 AM</span>
-                                                    <span class="showtime-slot">1:30 PM</span>
-                                                    <span class="showtime-slot">4:00 PM</span>
-                                                    <span class="showtime-slot">6:45 PM</span>
-                                                    <span class="showtime-slot">9:30 PM</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Movie 4 -->
-                                <div class="theater-card">
-                                    <div class="theater-header">
-                                        <h5 class="mb-0">The Dark Knight</h5>
-                                        <p class="text-muted mb-0">Action, Crime | 2h 32m | PG-13</p>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3 mb-3">
-                                                <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3"
-                                                    class="img-fluid rounded" alt="Movie Poster">
-                                            </div>
-                                            <div class="col-md-9">
-                                                <h6 class="mb-3">CineMax Downtown</h6>
-                                                <div class="showtime-slots mb-4">
-                                                    <span class="showtime-slot">9:45 PM</span>
-                                                </div>
-
-                                                <h6 class="mb-3">CineMax Westside</h6>
-                                                <div class="showtime-slots mb-4">
-                                                    <span class="showtime-slot">10:30 PM</span>
-                                                </div>
-
-                                                <h6 class="mb-3">CineMax Eastend</h6>
-                                                <div class="showtime-slots">
-                                                    <span class="showtime-slot">11:00 PM</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
+                        <!-- End Showtimes List -->
+
                     </div>
                 </div>
             </div>
@@ -246,5 +138,4 @@
 
     @include('user/layouts/script')
 </body>
-
 </html>
