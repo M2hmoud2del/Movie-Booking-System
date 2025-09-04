@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-
+   
+    
     <title>CineMax - User Movies</title>
 
     @include('user/layouts/head')
@@ -14,7 +15,6 @@
             color: white;
             border-left: 4px solid var(--sidebar-active);
         }
-
     </style>
 </head>
 
@@ -31,33 +31,23 @@
             <!-- Main Content -->
             <div class="col-lg-10 col-md-9">
                 <div class="main-content">
-                    <!-- Now Showing Section with Slideshow -->
+                    <!-- Slideshow Section - Dynamic from Database -->
+                    
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3"
-                                    class="d-block w-100" alt="First slide">
+                            @foreach($movies->take(3) as $index => $movie)
+                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                <img src="{{ $movie->poster ? asset('uploads/movies' . $movie->poster) : 'https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3' }}"
+                                    class="d-block w-100" alt="{{ $movie->name }}" style="object-fit: cover;">
                                 <div class="carousel-caption d-none d-md-block">
-                                    <h5>First slide label</h5>
-                                    <p>Some representative placeholder content for the first slide.</p>
+                                    <h5>{{ $movie->name }}</h5>
+                                    <p>{{ $movie->genre }} | {{ floor($movie->duration / 60) }}h {{ $movie->duration % 60 }}m</p>
+                                    @if($movie->rating)
+                                    <span class="badge bg-warning text-dark">{{ $movie->rating }}/10</span>
+                                    @endif
                                 </div>
                             </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3"
-                                    class="d-block w-100" alt="Second slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Second slide label</h5>
-                                    <p>Some representative placeholder content for the second slide.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3"
-                                    class="d-block w-100" alt="Third slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Third slide label</h5>
-                                    <p>Some representative placeholder content for the third slide.</p>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
                             data-bs-slide="prev">
@@ -70,93 +60,65 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
+                    
 
-                    <!-- Rest of the content remains the same -->
-                    <div class="row mb-5">
+                    <!-- Movies Section - Dynamic from Database -->
+                    <div class="row mb-5 mt-4">
                         <div class="col-12">
+                            <h3 class="mb-4">All Movies</h3>
                             <div class="row">
-                                <!-- Movie 1 -->
+                                @foreach($movies as $movie)
                                 <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
                                     <div class="movie-card">
                                         <div class="position-relative">
-                                            <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3"
-                                                class="card-img-top movie-poster" alt="Movie Poster">
-                                            <span class="badge-rating">8.5/10</span>
+                                            <img src="{{ $movie->poster ? asset('storage/posters/' . $movie->poster) : 'https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3' }}"
+                                                class="card-img-top movie-poster" alt="{{ $movie->name }}">
+                                            
+                                            
+                                            @if($movie->rating)
+                                            <span class="badge-rating">{{ $movie->rating }}/10</span>
+                                            @endif
+                                            
+                                            <!-- Status Badge -->
+                                            @if($movie->status == 'Now Showing')
+                                            <span class="badge bg-success position-absolute top-0 start-0 m-2">{{ $movie->status }}</span>
+                                            
+                                            @else
+                                            <span class="badge bg-secondary position-absolute top-0 start-0 m-2">{{ $movie->status }}</span>
+                                            @endif
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">Spider-Man: Across the Universe</h5>
-                                            <p class="card-text text-muted">Action, Adventure | 2h 20m</p>
+                                            <h5 class="card-title">{{ $movie->name }}</h5>
+                                            <p class="card-text text-muted">
+                                                {{ $movie->genre }} | {{ floor($movie->duration / 60) }}h {{ $movie->duration % 60 }}m
+                                            </p>
+                                            
+                                           
+                                            
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <span class="badge bg-warning text-dark">PG-13</span>
-                                                <button class="showtime-btn btn-sm">Showtimes</button>
+                                                <!-- Genre Badge -->
+                                                <span class="badge bg-primary">{{ $movie->genre }}</span>
+                                                
+                                                @if($movie->status == 'Now Showing')
+                                                <button class="showtime-btn btn-sm" onclick="viewShowtimes({{ $movie->id }})">Showtimes</button>
+                                                @else
+                                                <button class="btn btn-outline-secondary btn-sm" disabled>{{ $movie->status }}</button>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Movie 2 -->
-                                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                                    <div class="movie-card">
-                                        <div class="position-relative">
-                                            <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3"
-                                                class="card-img-top movie-poster" alt="Movie Poster">
-                                            <span class="badge-rating">9.2/10</span>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Oppenheimer</h5>
-                                            <p class="card-text text-muted">Biography, Drama | 3h 00m</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span class="badge bg-danger">R</span>
-                                                <button class="showtime-btn btn-sm">Showtimes</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Movie 3 -->
-                                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                                    <div class="movie-card">
-                                        <div class="position-relative">
-                                            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3"
-                                                class="card-img-top movie-poster" alt="Movie Poster">
-                                            <span class="badge-rating">7.8/10</span>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Barbie: Dream Adventure</h5>
-                                            <p class="card-text text-muted">Comedy, Fantasy | 1h 54m</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span class="badge bg-success">PG</span>
-                                                <button class="showtime-btn btn-sm">Showtimes</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Movie 4 -->
-                                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                                    <div class="movie-card">
-                                        <div class="position-relative">
-                                            <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3"
-                                                class="card-img-top movie-poster" alt="Movie Poster">
-                                            <span class="badge-rating">8.1/10</span>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">The Dark Knight</h5>
-                                            <p class="card-text text-muted">Action, Crime | 2h 32m</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span class="badge bg-warning text-dark">PG-13</span>
-                                                <button class="showtime-btn btn-sm">Showtimes</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
-
-                    <!-- Additional rows remain unchanged -->
                 </div>
             </div>
         </div>
     </div>
 
-   @include('user/layouts/script')
+    @include('user/layouts/script')
+    
+   
 </body>
 </html>

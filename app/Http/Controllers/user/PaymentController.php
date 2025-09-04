@@ -26,6 +26,6 @@ $bookings = Booking::with(['showtime.movie'])->get();
             return $b->showtime->movie;
         })->filter()->unique('id');
 
-        return view('user.payments', compact('bookings', 'movies'));
+        return view('user.payments.payments', compact('bookings', 'movies'));
     }
 }

@@ -10,15 +10,16 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     //
+    
     public function dashboard()
     {
         return view('user.dashboard.dashboard');
     }
 
-public function movies()
-{
-    return view('user.movies.movies');
-}
+    public function movies()
+    {
+        return view('user.movies.movies');
+    }
 
 public function showtimes()
     {

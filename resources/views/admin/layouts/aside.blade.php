@@ -26,12 +26,6 @@
                     <span class="nav-text">Bookings</span>
                 </a>
             </li>
-            <li class="nav-item {{ request()->is('admin/screenings*') ? 'active' : '' }}">
-                <a href="{{ url('admin/screenings') }}">
-                    <i class="fas fa-theater-masks"></i>
-                    <span class="nav-text">Screenings</span>
-                </a>
-            </li>
         </ul>
     </div>
 
@@ -60,12 +54,6 @@
                 <a href="{{ url('admin/payments') }}">
                     <i class="fas fa-money-bill-wave"></i>
                     <span class="nav-text">Payments</span>
-                </a>
-            </li>
-            <li class="nav-item {{ request()->is('admin/settings*') ? 'active' : '' }}">
-                <a href="{{ url('admin/settings') }}">
-                    <i class="fas fa-cog"></i>
-                    <span class="nav-text">Settings</span>
                 </a>
             </li>
         </ul>

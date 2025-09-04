@@ -282,6 +282,11 @@ body {
     color: #f1c40f;
 }
 
+.status.inactive {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
 .action-btn {
     background: rgba(255, 255, 255, 0.1);
     border: none;
@@ -297,19 +302,19 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Recent Bookings */
-.booking-item {
+/* Recent movies */
+.movies-item {
     display: flex;
     align-items: center;
     padding: 15px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.booking-item:last-child {
+.movies-item:last-child {
     border-bottom: none;
 }
 
-.booking-poster {
+.movies-poster {
     width: 60px;
     height: 80px;
     border-radius: 8px;
@@ -317,23 +322,23 @@ body {
     margin-right: 15px;
 }
 
-.booking-details {
+.movies-details {
     flex: 1;
 }
 
-.booking-movie {
+.movies-movie {
     font-weight: 600;
     margin-bottom: 5px;
 }
 
-.booking-info {
+.movies-info {
     display: flex;
     gap: 15px;
     color: var(--text-secondary);
     font-size: 13px;
 }
 
-.booking-price {
+.movies-price {
     color: var(--accent);
     font-weight: 600;
 }

@@ -1,135 +1,126 @@
 @extends('admin.layouts.app')
-
 @section('title', 'Booking Details - Movie Booking System')
-
 @section('page-title', 'Booking Details')
-
 @section('header-actions')
 <a href="{{ route('admin.bookings.index') }}" class="btn-secondary">
     <i class="fas fa-arrow-left"></i> Back to Bookings
 </a>
 @endsection
 
-
 @section('content')
 <div class="dashboard-section">
     <div class="section-header">
         <h2 class="section-title">Booking Information</h2>
         <div class="header-actions">
-            <a href="{{ route('admin.bookings.edit', 1) }}" class="btn-primary">
+            <a href="{{ route('admin.bookings.edit', $booking->id) }}" class="btn-primary">
                 <i class="fas fa-edit"></i> Edit Booking
             </a>
         </div>
     </div>
-
-    <div class="booking-details" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div class="booking-details">
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Booking ID</label>
-            <p style="font-size: 16px; margin-top: 5px;">#BK001</p>
+            <label>Booking ID</label>
+            <p>#BK{{ $booking->id }}</p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Customer</label>
-            <p style="font-size: 16px; margin-top: 5px;">John Doe (john.doe@example.com)</p>
+            <label>Customer</label>
+            <p> {{ $booking->user->name }} ({{ $booking->user->email }}) </p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Movie</label>
-            <p style="font-size: 16px; margin-top: 5px;">Spider-Man: No Way Home</p>
+            <label>Movie</label>
+            <p>{{ $booking->showtime->movie->name }}</p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Screen</label>
-            <p style="font-size: 16px; margin-top: 5px;">Screen 3</p>
+            <label>Screen</label>
+            <p>{{ $booking->showtime->screen->screen_name }}</p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Date & Time</label>
-            <p style="font-size: 16px; margin-top: 5px;">June 15, 2023 at 7:30 PM</p>
+            <label>Date & Time</label>
+            <p> {{ \Carbon\Carbon::parse($booking->showtime->start_time)->format('F d, Y \a\t h:i A') }} </p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Seats</label>
-            <p style="font-size: 16px; margin-top: 5px;">E12, E13</p>
+            <label>Seats</label>
+            <p> @foreach($booking->bookedSeats as $seat) {{ $seat->seat->seat_row }}{{ $seat->seat->seat_number }}@if(!$loop->last), @endif @endforeach </p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Total Amount</label>
-            <p style="font-size: 16px; margin-top: 5px;">$25.00</p>
+            <label>Total Amount</label>
+            <p>${{ number_format($booking->amount, 2) }}</p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Payment Status</label>
-            <p style="font-size: 16px; margin-top: 5px; color: #2ecc71;">Paid</p>
+            <label>Payment Status</label>
+            <p style="color: #2ecc71 ;"> {{ $booking->status }} </p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Booking Date</label>
-            <p style="font-size: 16px; margin-top: 5px;">June 14, 2023 at 2:30 PM</p>
-        </div>
-
-        <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Booking Status</label>
-            <p style="font-size: 16px; margin-top: 5px;">Confirmed</p>
+            <label>Booking Date</label>
+            <p> {{ $booking->created_at->format('F d, Y \a\t h:i A') }} </p>
         </div>
     </div>
 </div>
-
 <div class="dashboard-section">
     <div class="section-header">
         <h2 class="section-title">Payment Information</h2>
     </div>
-
-    <div class="payment-details" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div class="payment-details">
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Payment Method</label>
-            <p style="font-size: 16px; margin-top: 5px;">Credit Card</p>
+            <label>Payment Method</label>
+            <p>{{ $booking->payment_method }}</p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Transaction ID</label>
-            <p style="font-size: 16px; margin-top: 5px;">TXN-123456789</p>
+            <label>Transaction ID</label>
+            <p>TXN-{{ $booking->id }}{{ $booking->user_id }}</p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Payment Date</label>
-            <p style="font-size: 16px; margin-top: 5px;">June 14, 2023 at 2:35 PM</p>
+            <label>Payment Date</label>
+            <p> {{ $booking->created_at->format('F d, Y \a\t h:i A') }} </p>
         </div>
-
         <div class="detail-group">
-            <label style="color: var(--text-secondary); font-size: 14px;">Card Last Digits</label>
-            <p style="font-size: 16px; margin-top: 5px;">**** **** **** 1234</p>
+            <label>Card Last Digits</label>
+            <p>**** **** **** 1234</p>
         </div>
     </div>
 </div>
-
 <div class="dashboard-section">
     <div class="section-header">
         <h2 class="section-title">Booking Actions</h2>
     </div>
-
     <div style="display: flex; gap: 15px;">
-        <a href="{{ route('admin.bookings.edit', 1) }}" class="btn-primary">
+        <a href="{{ route('admin.bookings.edit', $booking->id) }}" class="btn-primary">
             <i class="fas fa-edit"></i> Edit Booking
         </a>
-
-        <button class="btn-danger" onclick="confirmDelete()">
-            <i class="fas fa-trash"></i> Delete Booking
-        </button>
-
-        <button class="btn-secondary">
-            <i class="fas fa-print"></i> Print Ticket
-        </button>
-
-        <button class="btn-secondary">
-            <i class="fas fa-envelope"></i> Resend Confirmation
-        </button>
+        <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn-danger">
+                <i class="fas fa-trash"></i> Delete Booking
+            </button>
+        </form>
     </div>
 </div>
 @endsection
 
 @push('styles')
 <style>
+    /* New styles for this page only */
+    .dashboard-section {
+        background: #121A2C;
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 20px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        color: #fff;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
     .btn {
         padding: 10px 20px;
         border-radius: 6px;
@@ -142,14 +133,6 @@
     }
 
     .btn-primary {
-        padding: 10px 20px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
         background: var(--accent);
         color: white;
         border: none;
@@ -160,6 +143,9 @@
     }
 
     .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         padding: 10px 20px;
         border-radius: 6px;
         cursor: pointer;
@@ -168,17 +154,15 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(255, 255, 255, 0.1);
-        color: var(--text);
-        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .btn-secondary:hover {
         background: rgba(255, 255, 255, 0.2);
     }
 
+    .btn-primary,
     .btn-danger {
-        background: rgba(231, 76, 60, 0.8);
+        background: var(--accent);
         color: white;
         border: none;
         padding: 10px 20px;
@@ -188,21 +172,35 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
+        text-decoration: none;
     }
 
+    .btn-primary:hover,
     .btn-danger:hover {
-        background: rgba(231, 76, 60, 1);
+        background: #c40811;
+    }
+
+    .booking-details,
+    .payment-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .detail-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detail-group label {
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+
+    .detail-group p {
+        font-size: 16px;
+        margin-top: 5px;
+        color: var(--text);
     }
 </style>
-@endpush
-
-@push('scripts')
-<script>
-    function confirmDelete() {
-        if (confirm('Are you sure you want to delete this booking? This action cannot be undone.')) {
-            // Here you would typically submit a form or make an AJAX request to delete the booking
-            alert('Booking deletion process would be triggered here.');
-        }
-    }
-</script>
 @endpush

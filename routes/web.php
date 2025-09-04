@@ -11,11 +11,17 @@ use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLogController;
-use App\Http\Controllers\User\UserController;
+
+
+
+
+
+
+use App\Http\Controllers\user\BookController;
+use App\Http\Controllers\user\UserController;
+
 use App\Http\Controllers\User\PaymentController as UserPaymentController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\User\BookController;
-
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,12 +47,18 @@ Route::prefix('admin')->middleware(['auth', 'verified', IsAdmin::class])->name('
     Route::resource('admins', AdminController::class);
     Route::get('logs', [AdminLogController::class, 'index'])->name('admins.logs.index');
     Route::get('logs/{id}', [AdminLogController::class, 'show'])->name('admins.logs.show');
-    Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
+    // Payments
+    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+
+    // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
 });
 
-// User Routes
-Route::prefix('user')->middleware(['auth'])->group(function () {
+
+
+
+//User Routes
+Route::prefix('User')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/movies', [UserController::class, 'movies'])->name('user.movies');
     Route::get('/showtimes', [UserController::class, 'showtimes'])->name('user.showtimes');
@@ -57,7 +69,6 @@ Route::prefix('user')->middleware(['auth'])->group(function () {
     Route::post('/book/submit', [BookController::class, 'submitBooking'])->name('book.submit');
 
     Route::get('/history', [UserController::class, 'history'])->name('user.history');
-    
 });
 
 require __DIR__ . '/auth.php';
