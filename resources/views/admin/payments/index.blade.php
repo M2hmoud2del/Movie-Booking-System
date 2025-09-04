@@ -40,6 +40,11 @@
 
 <!-- Payments Table -->
 <div class="dashboard-section">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="section-header">
         <h2 class="section-title">All Payments</h2>
     </div>
@@ -53,7 +58,7 @@
                 <th>Payment Method</th>
                 <th>Date</th>
                 <th>Status</th>
-                <th>Actions</th> <!-- New Column -->
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -105,7 +110,7 @@
 
     <!-- Pagination -->
     <div style="margin-top: 20px;">
-        {{ $payments->links() }}
+        {{ $payments->links('vendor.pagination.custom') }}
     </div>
 </div>
 @endsection

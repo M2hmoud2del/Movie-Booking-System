@@ -20,7 +20,7 @@
             <i class="fas fa-ticket-alt"></i>
         </div>
         <div class="stat-text">
-            <h3>1,248</h3>
+            <h3>{{$totalMovies}}</h3>
             <p>Total moviess</p>
         </div>
     </div>
@@ -30,7 +30,7 @@
             <i class="fas fa-video"></i>
         </div>
         <div class="stat-text">
-            <h3>24</h3>
+            <h3>{{$moviesShowing}}</h3>
             <p>moviess Showing</p>
         </div>
     </div>
@@ -40,7 +40,7 @@
             <i class="fas fa-users"></i>
         </div>
         <div class="stat-text">
-            <h3>5,842</h3>
+            <h3>{{$totalCustomers}}</h3>
             <p>Total Customers</p>
         </div>
     </div>
@@ -50,7 +50,7 @@
             <i class="fas fa-money-bill-wave"></i>
         </div>
         <div class="stat-text">
-            <h3>$28,540</h3>
+            <h3>{{$totalRevenue}}</h3>
             <p>Total Revenue</p>
         </div>
     </div>
@@ -66,9 +66,9 @@
     <div class="moviess-list">
         @foreach($movies as $movie)
             <div class="movies-item">
-                <img src="{{ $movie->poster_url }}" alt="{{ $movie->title }}" class="movies-poster">
+                <img src="{{ asset($movie->poster) }}" alt="{{ $movie->name }}" class="movies-poster">
                 <div class="movies-details">
-                    <div class="movies-title">{{ $movie->title }}</div>
+                    <div class="movies-title">{{ $movie->name }}</div>
                 </div>
             </div>
         @endforeach

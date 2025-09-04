@@ -22,7 +22,7 @@ class BookingController extends Controller
     {
         $this->logActivity('View', 'Bookings', 'Viewed all bookings');
 
-        $bookings = Booking::with('bookedSeats.seat', 'user', 'showtime.movie')->get();
+        $bookings = Booking::with('bookedSeats.seat', 'user', 'showtime.movie')->orderBy('created_at', 'desc')->paginate(10);
 
 
         $movies = $bookings->pluck('showtime.movie.title')->unique();

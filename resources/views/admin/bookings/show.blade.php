@@ -94,8 +94,6 @@
                 <i class="fas fa-trash"></i> Delete Booking
             </button>
         </form>
-        <button class="btn-secondary"> <i class="fas fa-print"></i> Print Ticket </button>
-        <button class="btn-secondary"> <i class="fas fa-envelope"></i> Resend Confirmation </button>
     </div>
 </div>
 @endsection

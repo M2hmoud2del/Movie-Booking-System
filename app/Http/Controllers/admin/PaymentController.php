@@ -5,18 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use App\Traits\LogsActivity;
 
 class PaymentController extends Controller
 {
+    use LogsActivity;
+
     public function index()
     {
-        $payments = Booking::with('user')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $payments = Booking::with('user')->orderBy('created_at', 'desc')->paginate(10);
 
         $totalRevenue = Booking::where('status', 'completed')->sum('amount');
         $successfulPayments = Booking::where('status', 'completed')->count();
         $failedPayments = Booking::where('status', 'failed')->count();
+
+        $this->logActivity('View', 'Payments', 'Viewed all payments');
 
         return view('admin.payments.index', compact(
             'payments',
@@ -33,10 +36,16 @@ class PaymentController extends Controller
         ]);
 
         $payment = Booking::findOrFail($id);
+        $oldStatus = $payment->status;
+
         $payment->update(['status' => $validated['status']]);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Payment status updated successfully!');
+        $this->logActivity(
+            'Update',
+            'Payments',
+            "Updated payment ID: {$payment->id}, status: {$oldStatus} → {$validated['status']}"
+        );
+
+        return redirect()->back()->with('success', 'Payment status updated successfully!');
     }
 }
