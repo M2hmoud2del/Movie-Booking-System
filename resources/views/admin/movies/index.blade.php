@@ -5,52 +5,35 @@
 @section('page-title', 'Movies Management')
 
 @section('header-actions')
-<div class="search-box">
-    <i class="fas fa-search"></i>
-    <input type="text" placeholder="Search movies...">
-</div>
 <a href="{{ route('admin.movies.create') }}" class="btn-primary">
     <i class="fas fa-plus"></i> New Movie
 </a>
 @endsection
 
-
 @section('content')
-<!-- Filters -->
-<div class="filters">
-    <select class="filter-select">
-        <option>All Genres</option>
-        <option>Action</option>
-        <option>Adventure</option>
-        <option>Comedy</option>
-        <option>Drama</option>
-        <option>Horror</option>
-    </select>
-    
-    <select class="filter-select">
-        <option>All Status</option>
-        <option>Now Showing</option>
-        <option>Coming Soon</option>
-        <option>Ended</option>
-    </select>
-    
-    <select class="filter-select">
-        <option>Sort By</option>
-        <option>Newest</option>
-        <option>Oldest</option>
-        <option>Title (A-Z)</option>
-        <option>Title (Z-A)</option>
-    </select>
-</div>
-
 <!-- Movies Table -->
 <div class="dashboard-section">
+    @if (session('success'))
+    @php
+    $message = session('success');
+    $alertClass = 'alert-success';
+    if (Str::contains(strtolower($message), 'update')) {
+    $alertClass = 'alert-warning';
+    } elseif (Str::contains(strtolower($message), 'create')) {
+    $alertClass = 'alert-info';
+    } elseif (Str::contains(strtolower($message), 'delete')) {
+    $alertClass = 'alert-danger';
+    }
+    @endphp
+    <div class="alert {{ $alertClass }}">
+        {{ $message }}
+    </div>
+    @endif
     <div class="section-header">
         <h2 class="section-title">All Movies</h2>
-        <a href="#" class="view-all">Export CSV</a>
     </div>
-    
-    <table class="data-table">
+
+    <table class="data-table" id="moviesTable">
         <thead>
             <tr>
                 <th>Movie</th>
@@ -63,125 +46,48 @@
             </tr>
         </thead>
         <tbody>
+            @forelse ($movies as $movie)
             <tr>
                 <td>
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Spider-Man" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
+                        <img src="{{ asset($movie->poster) }}" alt="{{ $movie->name }}" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
                         <div>
-                            <div style="font-weight: 600;">Spider-Man: No Way Home</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">PG-13</div>
+                            <div style="font-weight: 600;">{{ $movie->name }}</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">{{ $movie->rating }}</div>
                         </div>
                     </div>
                 </td>
-                <td>Action, Adventure</td>
-                <td>2h 28m</td>
-                <td>2021-12-17</td>
+                <td>{{ $movie->genre }}</td>
+                <td>{{ $movie->duration }}</td>
+                <td>{{ $movie->release_date->format('Y-m-d') }}</td>
                 <td>
                     <div style="display: flex; align-items: center; gap: 5px;">
                         <i class="fas fa-star" style="color: gold;"></i>
-                        <span>4.8/5</span>
+                        <span>{{ $movie->rating }}/5</span>
                     </div>
                 </td>
-                <td>Now Showing</td>
+                <td>{{ $movie->status }}</td>
                 <td>
-                    <a href="{{ route('admin.movies.show', 1) }}" class="action-btn"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('admin.movies.edit', 1) }}" class="action-btn"><i class="fas fa-edit"></i></a>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                    <a href="{{ route('admin.movies.show', $movie->id) }}" class="action-btn"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('admin.movies.edit', $movie->id) }}" class="action-btn"><i class="fas fa-edit"></i></a>
+                    <form action="{{ route('admin.movies.destroy', $movie->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="action-btn" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></button>
+                    </form>
                 </td>
             </tr>
+            @empty
             <tr>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="The Batman" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
-                        <div>
-                            <div style="font-weight: 600;">The Batman</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">PG-13</div>
-                        </div>
-                    </div>
-                </td>
-                <td>Action, Crime, Drama</td>
-                <td>2h 56m</td>
-                <td>2022-03-04</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <i class="fas fa-star" style="color: gold;"></i>
-                        <span>4.7/5</span>
-                    </div>
-                </td>
-                <td>Now Showing</td>
-                <td>
-                    <a href="{{ route('admin.movies.show', 2) }}" class="action-btn"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('admin.movies.edit', 2) }}" class="action-btn"><i class="fas fa-edit"></i></a>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
-                </td>
+                <td colspan="7">No movies found.</td>
             </tr>
-            <tr>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Black Panther" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
-                        <div>
-                            <div style="font-weight: 600;">Black Panther: Wakanda Forever</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">PG-13</div>
-                        </div>
-                    </div>
-                </td>
-                <td>Action, Adventure</td>
-                <td>2h 41m</td>
-                <td>2022-11-11</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <i class="fas fa-star" style="color: gold;"></i>
-                        <span>4.6/5</span>
-                    </div>
-                </td>
-                <td>Now Showing</td>
-                <td>
-                    <a href="{{ route('admin.movies.show', 3) }}" class="action-btn"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('admin.movies.edit', 3) }}" class="action-btn"><i class="fas fa-edit"></i></a>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <img src="https://images.unsplash.com/photo-1585951237318-9ea5e175b891?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Top Gun" style="width: 50px; height: 70px; border-radius: 5px; object-fit: cover;">
-                        <div>
-                            <div style="font-weight: 600;">Top Gun: Maverick</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">PG-13</div>
-                        </div>
-                    </div>
-                </td>
-                <td>Action, Drama</td>
-                <td>2h 11m</td>
-                <td>2022-05-27</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <i class="fas fa-star" style="color: gold;"></i>
-                        <span>4.9/5</span>
-                    </div>
-                </td>
-                <td>Now Showing</td>
-                <td>
-                    <a href="{{ route('admin.movies.show', 4) }}" class="action-btn"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('admin.movies.edit', 4) }}" class="action-btn"><i class="fas fa-edit"></i></a>
-                    <button class="action-btn"><i class="fas fa-trash"></i></button>
-                </td>
-            </tr>
+            @endforelse
         </tbody>
     </table>
-    
-    <!-- Table Footer -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-        <div style="color: var(--text-secondary); font-size: 14px;">
-            Showing 1 to 4 of 24 entries
-        </div>
-        <div style="display: flex; gap: 10px;">
-            <button class="action-btn">Previous</button>
-            <button class="action-btn" style="background: var(--accent);">1</button>
-            <button class="action-btn">2</button>
-            <button class="action-btn">3</button>
-            <button class="action-btn">Next</button>
-        </div>
+
+    <!-- Pagination -->
+    <div style="margin-top: 20px;">
+        {{ $movies->links('vendor.pagination.custom') }}
     </div>
 </div>
 @endsection
@@ -194,7 +100,7 @@
         margin-bottom: 20px;
         flex-wrap: wrap;
     }
-    
+
     .filter-select {
         background: var(--secondary);
         color: var(--text);
@@ -203,7 +109,7 @@
         border-radius: 6px;
         outline: none;
     }
-    
+
     .btn-primary {
         background: var(--accent);
         color: white;
@@ -217,7 +123,7 @@
         align-items: center;
         gap: 8px;
     }
-    
+
     .btn-primary:hover {
         background: #c40811;
     }
@@ -236,7 +142,7 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .action-btn:hover {
         background: rgba(255, 255, 255, 0.2);
     }

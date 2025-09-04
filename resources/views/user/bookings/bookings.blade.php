@@ -28,7 +28,8 @@
             <!-- Main Content -->
             <div class="col-lg-10 col-md-9">
                 <div class="main-content">
-                    
+                    <form novalidate action="{{route('book.submit')}}" method="POST" id="booking-form">
+                        @csrf
                     <div class="row">
                         <div class="col-lg-8">
                             <h4 class="section-title">Quick Booking</h4>
@@ -36,79 +37,52 @@
                                 <div class="card-body">
                                     <div class="row mb-4">
                                         <div class="col-md-6">
-                                            <label for="movie" class="form-label">Select Movie</label>
-                                            <select class="form-select" id="movie">
+                                            <label  for="movie" class="form-label">Select Movie</label>
+                                            <select class="form-select" id="movie" name="movie_id">
                                                 <option selected>Choose a movie...</option>
-                                                <option>Spider-Man: Across the Universe</option>
-                                                <option>Oppenheimer</option>
-                                                <option>Barbie: Dream Adventure</option>
-                                                <option>The Dark Knight</option>
+                                                @foreach ($movies as $m)
+                                                    <option value="{{$m->id}}">{{$m->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="date" class="form-label">Select Date</label>
-                                            <input type="date" class="form-control" id="date">
+                                            <label  class="form-label"  name="date">Select Date</label>
+                                            <input type="date" class="form-control" id="date" name="date" 
+                                                min="{{ \Carbon\Carbon::today()->toDateString() }}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <div class="col-md-6">
-                                            <label for="time" class="form-label">Select Time</label>
-                                            <select class="form-select" id="time">
+                                            <label  for="time" class="form-label">Select Time</label>
+                                            <select  name="time" class="form-select" id="time">
                                                 <option selected>Choose time...</option>
-                                                <option>10:00 AM</option>
-                                                <option>1:30 PM</option>
-                                                <option>5:00 PM</option>
-                                                <option>8:30 PM</option>
+                                                @foreach ($showtime as $show)
+                                                    <option value="{{$show->id}}">{{$show->start_time}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="tickets" class="form-label">Number of Tickets</label>
-                                            <select class="form-select" id="tickets">
-                                                <option selected>Select quantity...</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
+                                            <label name="screen_id" for="Screen" class="form-label">ٍScreen</label>
+                                            <select class="form-select" id="Screen" name="screen_id">
+                                                <option selected>Select screen</option>
+                                                @foreach ($screenids as $screen)
+                                                    <option value="{{$screen->id}}">{{$screen->screen_name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
-
+                                        
                                     <!-- Seat Selection -->
                                     <div class="mb-4">
                                         <h5 class="mb-3">Select Seats</h5>
                                         <div class="screen mb-3 text-center">SCREEN</div>
 
-                                        <div class="text-center seat-map">
+                                        <div id="seat-map" class="text-center seat-map">
                                             <!-- This would be generated dynamically in a real app -->
-                                            <div class="d-flex justify-content-center flex-wrap mb-3">
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i>
-                                                </div>
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i>
-                                                </div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                            </div>
-                                            <div class="d-flex justify-content-center flex-wrap mb-3">
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                            </div>
-                                            <div class="d-flex justify-content-center flex-wrap mb-3">
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i></div>
-                                                <div class="seat occupied"><i class="bi bi-person-check-fill"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                                <div class="seat"><i class="bi bi-person-fill-add"></i></div>
-                                            </div>
+                                            
                                         </div>
                                     </div>
+                                     <input type="hidden" name="selected_seats" id="selected_seats_input">
 
                                     <div class="text-center">
                                         <button class="btn btn-lg btn-danger">Proceed to Payment</button>
@@ -116,7 +90,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        </form>
                         <!-- Rewards Section -->
                         <div class="col-lg-4">
                             <h4 class="section-title">Your Rewards</h4>
@@ -175,6 +149,67 @@
 
     <!-- Bootstrap JS -->
     @include('user/layouts/script')
+    <script>
+        const seats = @json($seats);
+const bookedSeats = @json($booked->pluck('seat_id'));
+const seatMapContainer = document.getElementById('seat-map');
+const screenSelect = document.getElementById('Screen');
+
+function renderSeats(screenId) {
+    seatMapContainer.innerHTML = '';
+
+    if (!screenId) return; // prevent empty rendering
+
+    const filteredSeats = seats.filter(s => s.screen_id == screenId);
+
+    const rows = {};
+    filteredSeats.forEach(s => {
+        if (!rows[s.seat_row]) rows[s.seat_row] = [];
+        rows[s.seat_row].push(s);
+    });
+
+    for (let row in rows) {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'd-flex justify-content-center flex-wrap mb-3';
+
+        rows[row].forEach(seat => {
+            const seatDiv = document.createElement('div');
+            seatDiv.className = 'seat';
+            seatDiv.dataset.seatId = seat.id;
+
+            if (bookedSeats.includes(seat.id)) {
+                seatDiv.classList.add('occupied');
+                seatDiv.innerHTML = `<i class="bi bi-person-check-fill"></i>`;
+            } else {
+                seatDiv.innerHTML = `<i class="bi bi-person-fill-add"></i>`;
+                seatDiv.addEventListener('click', () => seatDiv.classList.toggle('selected'));
+            }
+
+            rowDiv.appendChild(seatDiv);
+        });
+
+        seatMapContainer.appendChild(rowDiv);
+    }
+}
+
+screenSelect.addEventListener('change', function() {
+    renderSeats(this.value);
+});
+
+document.getElementById('booking-form').addEventListener('submit', function(e) {
+    const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'))
+        .map(seat => seat.dataset.seatId);
+
+    if(selectedSeats.length === 0){
+        e.preventDefault();
+        alert('Please select at least one seat!');
+        return;
+    }
+
+    document.getElementById('selected_seats_input').value = selectedSeats.join(',');
+});
+
+    </script>
 </body>
 
 </html>

@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\AdminLogController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\PaymentController as UserPaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\BookController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,11 +49,15 @@ Route::prefix('admin')->middleware(['auth', 'verified', IsAdmin::class])->name('
 Route::prefix('user')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/movies', [UserController::class, 'movies'])->name('user.movies');
-Route::get('/showtimes', [UserController::class, 'showtimes'])->name('user.showtimes');
-    Route::get('/payments', [UserPaymentController::class, 'payments'])->name('user.payments');
-    Route::get('/booking', [UserController::class, 'booking'])->name('user.booking');
-    Route::get('/history', [UserController::class, 'history'])->name('user.history');
+    Route::get('/showtimes', [UserController::class, 'showtimes'])->name('user.showtimes');
 
+    Route::get('/payments', [UserPaymentController::class, 'payments'])->name('user.payments');
+   
+    Route::get('/booking', [BookController::class, 'booking'])->name('user.booking');
+    Route::post('/book/submit', [BookController::class, 'submitBooking'])->name('book.submit');
+
+    Route::get('/history', [UserController::class, 'history'])->name('user.history');
+    
 });
 
 require __DIR__ . '/auth.php';
