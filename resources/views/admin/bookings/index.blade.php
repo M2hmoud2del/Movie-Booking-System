@@ -45,7 +45,6 @@
 <div class="dashboard-section">
     <div class="section-header">
         <h2 class="section-title">All Bookings</h2>
-        <a href="#" class="view-all">Export CSV</a>
     </div>
 
     <table class="table">
@@ -107,18 +106,9 @@
         </tbody>
     </table>
 
-    <!-- Table Footer -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-        <div style="color: var(--text-secondary); font-size: 14px;">
-            Showing 1 to {{ count($bookings) }} of 1,248 entries
-        </div>
-        <div style="display: flex; gap: 10px;">
-            <button class="action-btn">Previous</button>
-            <button class="action-btn" style="background: var(--accent);">1</button>
-            <button class="action-btn">2</button>
-            <button class="action-btn">3</button>
-            <button class="action-btn">Next</button>
-        </div>
+    <!-- Pagination -->
+    <div style="margin-top: 20px;">
+        {{ $bookings->links('vendor.pagination.custom') }}
     </div>
 </div>
 @endsection

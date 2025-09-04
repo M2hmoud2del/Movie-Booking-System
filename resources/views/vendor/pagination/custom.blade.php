@@ -12,15 +12,12 @@
 
         <div style="display: flex; gap: 10px;">
             {{-- Previous Page Link --}}
-            @if ($paginator->onFirstPage())
-                <button class="action-btn" disabled>Previous</button>
-            @else
+            @if (!$paginator->onFirstPage())
                 <a href="{{ $paginator->previousPageUrl() }}" class="action-btn">Previous</a>
             @endif
 
             {{-- Pagination Elements --}}
             @foreach ($elements as $element)
-                {{-- "Three Dots" Separator --}}
                 @if (is_string($element))
                     <button class="action-btn" disabled>{{ $element }}</button>
                 @endif
@@ -40,8 +37,6 @@
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())
                 <a href="{{ $paginator->nextPageUrl() }}" class="action-btn">Next</a>
-            @else
-                <button class="action-btn" disabled>Next</button>
             @endif
         </div>
     </div>
