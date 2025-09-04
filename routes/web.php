@@ -11,17 +11,13 @@ use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLogController;
-
-
-
-
-
-
-use App\Http\Controllers\user\BookController;
-use App\Http\Controllers\user\UserController;
-
-use App\Http\Controllers\User\PaymentController as UserPaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\user\HistoryController as UserHistoryController;
+use App\Http\Controllers\user\DashboardController as UserDashboardController;
+use App\Http\Controllers\user\UserController;
+use App\Http\Controllers\user\BookController;
+use App\Http\Controllers\User\PaymentController as UserPaymentController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -68,7 +64,8 @@ Route::prefix('User')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/booking', [BookController::class, 'booking'])->name('user.booking');
     Route::post('/book/submit', [BookController::class, 'submitBooking'])->name('book.submit');
 
-    Route::get('/history', [UserController::class, 'history'])->name('user.history');
+    Route::get('/history', [UserHistoryController::class, 'history'])->name('user.history');
+    
 });
 
 require __DIR__ . '/auth.php';

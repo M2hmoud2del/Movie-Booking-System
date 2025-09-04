@@ -37,6 +37,4 @@ public function showtimes()
     {
         return view('user.history.history');
     }
-
-
 }
