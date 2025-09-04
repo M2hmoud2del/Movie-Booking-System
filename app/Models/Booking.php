@@ -9,7 +9,8 @@ class Booking extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'showtime_id', 'amount', 'payment_method', 'status'];
+    protected $fillable = ['user_id', 'showtime_id', 'amount', 'status', 'payment_method'];
+
 
     public function user()
     {
@@ -24,5 +25,9 @@ class Booking extends Model
     public function bookedSeats()
     {
         return $this->hasMany(BookedSeat::class);
+    }
+    public function seats()
+    {
+        return $this->hasManyThrough(Seat::class, BookedSeat::class, 'booking_id', 'id', 'id', 'seat_id');
     }
 }
