@@ -13,10 +13,7 @@ class UserController extends Controller
         return view('user.dashboard.dashboard');
     }
 
-    public function movies()
-    {
-        return view('user.movies.movies');
-    }
+   
 
     public function showtimes()
     {
