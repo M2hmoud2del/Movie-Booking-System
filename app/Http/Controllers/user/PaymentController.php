@@ -21,7 +21,7 @@ class PaymentController extends Controller
         // All bookings for the user with related movie and showtime
 $bookings = Booking::with(['showtime.movie'])->where('user_id', Auth::id())->get();
 
-        // الأفلام الفريدة من الحجوزات
+        // Unique movies from the bookings
         $movies = $bookings->map(function ($b) {
             return $b->showtime->movie;
         })->filter()->unique('id');
