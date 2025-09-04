@@ -48,7 +48,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', IsAdmin::class])->name('
     Route::get('logs', [AdminLogController::class, 'index'])->name('admins.logs.index');
     Route::get('logs/{id}', [AdminLogController::class, 'show'])->name('admins.logs.show');
     // Payments
-    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
 
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
