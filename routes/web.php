@@ -68,8 +68,8 @@ Route::prefix('admin')->middleware(['auth', 'verified', IsAdmin::class])->name('
 
 //User Routes
 Route::prefix('User')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-    Route::get('/movies', [UserController::class, 'movies'])->name('user.movies');
+    Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/movies', [UserMovieController::class, 'movies'])->name('user.movies');
     Route::get('/showtimes', [UserController::class, 'showtimes'])->name('user.showtimes');
     Route::get('/payments', [UserController::class, 'payments'])->name('user.payments');
     Route::get('/booking', [BookController::class, 'booking'])->name('user.booking');
