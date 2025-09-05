@@ -160,6 +160,7 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
+    cursor: pointer;
 }
 
 .user-img {
@@ -212,6 +213,18 @@ body {
 .stat-text p {
     color: var(--text-secondary);
     font-size: 14px;
+}
+/* Dropdown */
+#userDropdown a,
+#userDropdown button {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#userDropdown a:hover,
+#userDropdown button:hover {
+    background: #f5f5f5;
+    border-radius: 5px;
 }
 
 /* Dashboard Sections */
@@ -364,7 +377,7 @@ body {
     .nav-item {
         justify-content: center;
     }
-    
+
     .nav-item a,
     .nav-item button {
         justify-content: center;

@@ -22,16 +22,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('admin/assets/js/main.js')}}"></script>
-    <script>
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(nav => {
-                    nav.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-        });
-    </script>
     @stack('scripts')
 </body>
 
