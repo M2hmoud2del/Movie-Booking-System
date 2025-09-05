@@ -16,7 +16,7 @@ class DashboardController extends Controller
 
         // Example stats (replace with actual queries as needed)
         $totalMovies = Movie::count();
-        $moviesShowing = Movie::where('status', 'now_showing')->count();
+        $moviesShowing = Movie::where('status', 'now showing')->count();
         $totalCustomers = User::where('role','user')->count();
         $totalRevenue = Booking::where('status', 'completed')->sum('amount');
 

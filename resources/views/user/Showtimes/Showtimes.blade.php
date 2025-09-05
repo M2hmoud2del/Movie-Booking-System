@@ -34,46 +34,15 @@
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h3>Movie Showtimes</h3>
-                                    <button class="custom-btn">
-                                        <i class="fas fa-filter me-2"></i>Filter
-                                    </button>
+                            
                                 </div>
                                 <p class="text-muted">Find showtimes for your favorite movies</p>
                             </div>
                         </div>
 
-                        <!-- Date Selector -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="date-selector">
-                                    <h5 class="mb-3">Select Date</h5>
-                                    <div class="d-flex flex-wrap">
-                                        <div class="date-btn active">Today</div>
-                                        <div class="date-btn">Tomorrow</div>
-                                        <div class="date-btn">Aug 15</div>
-                                        <div class="date-btn">Aug 16</div>
-                                        <div class="date-btn">Aug 17</div>
-                                        <div class="date-btn">Aug 18</div>
-                                        <div class="date-btn">Aug 19</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
 
-                        <!-- Filters -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <h5 class="mb-3">Filter by:</h5>
-                                <div class="d-flex flex-wrap">
-                                    <div class="filter-btn active">All Movies</div>
-                                    <div class="filter-btn">Action</div>
-                                    <div class="filter-btn">Drama</div>
-                                    <div class="filter-btn">Comedy</div>
-                                    <div class="filter-btn">IMAX</div>
-                                    <div class="filter-btn">3D</div>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <div class="row">
                             <div class="col-12">
@@ -106,7 +75,8 @@
                                                 </div>
                                                 <div class="col-md-9">
                                                     @foreach($movieShowtimes->groupBy('screen_id') as $screenId => $screenShowtimes)
-                                                        <h6 class="mb-3">{{ $screenShowtimes->first()->screen->name ?? 'Unknown Screen' }}</h6>
+                                                    
+                                                        <h6 class="mb-3">Screen{{ $screenId?? 'Unknown Screen' }}</h6>
                                                         <div class="showtime-slots mb-4">
                                                             @foreach($screenShowtimes as $showtime)
                                                                 <span class="showtime-slot">
