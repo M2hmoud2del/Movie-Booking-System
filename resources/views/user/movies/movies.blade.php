@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
-   
+
     
     <title>CineMax - User Movies</title>
 
@@ -35,15 +36,15 @@
                     
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            @foreach($movies->take(3) as $index => $movie)
+                            @foreach($movies->take(4) as $index => $movie)
                             <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                <img src="{{  asset('uploads/movies' . $movie->poster)  }}"
+                                <img src="{{  asset( $movie->poster)  }}"
                                     class="d-block w-100" alt="{{ $movie->name }}" style="object-fit: cover;">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>{{ $movie->name }}</h5>
                                     <p>{{ $movie->genre }} | {{ floor($movie->duration / 60) }}h {{ $movie->duration % 60 }}m</p>
                                     @if($movie->rating)
-                                    <span class="badge bg-warning text-dark">{{ $movie->rating }}/10</span>
+                                    <span class="badge bg-warning text-dark">{{ $movie->rating }}/5</span>
                                     @endif
                                 </div>
                             </div>
@@ -71,12 +72,12 @@
                                 <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
                                     <div class="movie-card">
                                         <div class="position-relative">
-                                            <img src="{{  asset('storage/posters/' . $movie->poster)  }}"
+                                            <img src="{{  asset( $movie->poster)  }}"
                                                 class="card-img-top movie-poster" alt="{{ $movie->name }}">
                                             
                                             
                                             @if($movie->rating)
-                                            <span class="badge-rating">{{ $movie->rating }}/10</span>
+                                            <span class="badge-rating">{{ $movie->rating }}/5</span>
                                             @endif
                                             
                                             <!-- Status Badge -->

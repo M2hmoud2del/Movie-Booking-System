@@ -36,7 +36,7 @@
                         @foreach($bookings as $booking)
                             <div class="col-md-6 col-lg-4 mb-4">
                                 <div class="card history-card">
-                                    <img src="{{  asset('uploads/movies' . $booking->showtime->movie->poster)  }}"
+                                    <img src="{{  asset($booking->showtime->movie->poster)  }}"
                                         class="movie-poster card-img-top" alt="{{ $booking->showtime->movie->name }}">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $booking->showtime->movie->name }}</h5>

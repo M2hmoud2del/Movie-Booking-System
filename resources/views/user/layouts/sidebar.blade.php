@@ -16,8 +16,18 @@
                         <li id="paymentside" class="nav-item"><a class="nav-link" href="{{route('user.payments')}}"><i
                                     class="fas fa-wallet"></i> Payments</a></li>
                         <div class="nav-divider"></div>
-                        <li class="nav-item logout-link"><a class="nav-link" href="#"><i
-                                    class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        <div class="nav-section">
+        <ul class="nav-menu">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="nav-link" style="background:none;border:none;padding:0;cursor:pointer;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="nav-text">Log Out</span>
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
                     </ul>
                 </div>
             </div>
