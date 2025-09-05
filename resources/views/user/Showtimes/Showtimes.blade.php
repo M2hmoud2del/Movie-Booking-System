@@ -95,7 +95,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 mb-3">
                                                     @if($movie->poster)
-                                                        <img src="{{ asset('storage/'.$movie->poster) }}"
+                                                        <img src="{{ asset($movie->poster) }}"
                                                              class="img-fluid rounded"
                                                              alt="{{ $movie->name }}">
                                                     @else
