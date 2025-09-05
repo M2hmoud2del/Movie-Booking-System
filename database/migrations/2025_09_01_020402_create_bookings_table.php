@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('showtime_id')->constrained('showtimes')->cascadeOnDelete()->cascadeOnUpdate();
             $table->decimal('amount', 10, 2)->nullable();
-            $table->string('payment_method', 50)->nullable();
+            $table->enum('payment_method', ['completed', 'failed', 'pending'])->default('pending');
             $table->string('status', 20)->nullable();
 });
     }
