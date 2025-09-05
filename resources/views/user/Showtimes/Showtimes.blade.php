@@ -76,7 +76,9 @@
                                                 <div class="col-md-9">
                                                     @foreach($movieShowtimes->groupBy('screen_id') as $screenId => $screenShowtimes)
                                                     
-                                                        <h6 class="mb-3">Screen{{ $screenId?? 'Unknown Screen' }}</h6>
+                                                        <h6 class="mb-3"><span class="showtime-slot">
+                                                                    Screen{{ $screenId?? 'Unknown Screen' }}
+                                                                </span></h6>
                                                         <div class="showtime-slots mb-4">
                                                             @foreach($screenShowtimes as $showtime)
                                                                 <span class="showtime-slot">

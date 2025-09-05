@@ -113,19 +113,19 @@
             });
 
             // Showtime selection functionality
-            const showtimeSlots = document.querySelectorAll('.showtime-slot');
-            showtimeSlots.forEach(slot => {
-                slot.addEventListener('click', () => {
-                    showtimeSlots.forEach(s => s.classList.remove('selected'));
-                    slot.classList.add('selected');
+            // const showtimeSlots = document.querySelectorAll('.showtime-slot');
+            // showtimeSlots.forEach(slot => {
+            //     slot.addEventListener('click', () => {
+            //         showtimeSlots.forEach(s => s.classList.remove('selected'));
+            //         slot.classList.add('selected');
 
-                    // In a real app, this would redirect to booking page
-                    setTimeout(() => {
-                    alert('Redirecting to booking page for selected showtime...');
-                    window.location.href = "{{route('user.booking')}}";
-                    }, 300);
-                });
-            });
+            //         // In a real app, this would redirect to booking page
+            //         setTimeout(() => {
+            //         alert('Redirecting to booking page for selected showtime...');
+            //         window.location.href = "{{route('user.booking')}}";
+            //         }, 300);
+            //     });
+            // });
 
             const showtimeButtons = document.querySelectorAll('.showtime-btn');
 

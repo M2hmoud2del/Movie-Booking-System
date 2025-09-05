@@ -51,9 +51,8 @@
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select name="status" id="status" class="form-control" required>
-                <option value="Pending">Pending</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Cancelled">Cancelled</option>
+                <option value="pending">pending</option>
+                <option value="Completed">Completed</option>
             </select>
         </div>
 

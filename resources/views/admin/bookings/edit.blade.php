@@ -52,9 +52,9 @@
         <div class="form-group">
             <label for="status">Status</label>
             <select name="status" id="status" class="form-control">
-                <option value="Confirmed" {{ $booking->status == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
-                <option value="Pending" {{ $booking->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                <option value="Cancelled" {{ $booking->status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+                <option value="Completed" {{ $booking->status == 'Completed' ? 'selected' : '' }}>Completed</option>
+                <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>pending</option>
+                <option value="failed" {{ $booking->status == 'failed' ? 'selected' : '' }}>failed</option>
             </select>
         </div>
         <div class="form-group">
