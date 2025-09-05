@@ -39,7 +39,7 @@
                                 <h3>Welcome back, {{Auth::user()->name}}!</h3>
                                 <button class="custom-btn">
                                     
-                                    <a href="{{route('user.booking')}}"><i class="fas fa-ticket-alt me-2"></i>Book Tickets</a>
+                                    <a style="text-decoration: none;"  href="{{route('user.booking')}}"><i style="color: white" class="fas fa-ticket-alt me-2"></i><p style="display: inline ;color: white">Book Tickets</p></a>
                                 </button>
                             </div>
                             <p class="text-muted">Here's what's happening at your cinema today.</p>
