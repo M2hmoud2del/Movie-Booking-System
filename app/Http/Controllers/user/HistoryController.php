@@ -14,8 +14,9 @@ use function Psy\sh;
 class HistoryController extends Controller
 {
      public function history(){
-
-    
-            return view('user.history.history',);
+        $bookings = Booking::with('showtime.movie' )->where('user_id', Auth::id())->get();
+                          
+       
+            return view('user.history.history',compact('bookings'));
 }
 }

@@ -33,34 +33,34 @@
                     <h3 class="mb-4"><i class="fas fa-history me-2"></i> Watch History</h3>
 
                     <div class="row">
-                        <!-- Example history card -->
-                        <div class="col-md-6 col-lg-4 mb-4">
-                            <div class="card history-card">
-                                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf"
-                                    class="movie-poster card-img-top" alt="Oppenheimer">
-                                <div class="card-body">
-                                    <h5 class="card-title">Oppenheimer</h5>
-                                    <p class="card-text text-muted">Watched on: <strong>2025-08-20</strong></p>
-                                    <p class="card-text"><span class="badge bg-danger">R</span> • Biography, Drama • 3h
-                                    </p>
+                        @foreach($bookings as $booking)
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card history-card">
+                                    <img src="{{  asset('uploads/movies' . $booking->showtime->movie->poster)  }}"
+                                        class="movie-poster card-img-top" alt="{{ $booking->showtime->movie->name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $booking->showtime->movie->name }}</h5>
+                                        <p class="card-text text-muted">Watched on: <strong>{{ $booking->created_at->format('d M Y')}}</strong></p>
+                                        <p class="card-text">
+                                                <span class="badge bg-warning text-dark">{{ $booking->showtime->movie->rating }}/10</span> •
+
+                                            {{ $booking->showtime->movie->genre }} • {{ floor($booking->showtime->movie->duration / 60) }}h {{ $booking->showtime->movie->duration % 60 }}m
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
 
-                        <div class="col-md-6 col-lg-4 mb-4">
-                            <div class="card history-card">
-                                <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85"
-                                    class="movie-poster card-img-top" alt="Dark Knight">
-                                <div class="card-body">
-                                    <h5 class="card-title">The Dark Knight</h5>
-                                    <p class="card-text text-muted">Watched on: <strong>2025-07-10</strong></p>
-                                    <p class="card-text"><span class="badge bg-warning text-dark">PG-13</span> • Action,
-                                        Crime • 2h 32m</p>
+                          @if($bookings->isEmpty())
+                            <div class="col-12">
+                                <div class="text-center py-5">
+                                    <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                                    <h4 class="text-muted">No Watch History Found</h4>
+                                    <p class="text-muted">You haven't watched any movies yet. Start exploring our collection!</p>
+                                    <a href="{{ route('user.dashboard') }}" class="btn btn-primary">Browse Movies</a>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- More history items ... -->
+                          @endif
                     </div>
                 </div>
             </div>

@@ -35,7 +35,7 @@
                         <div class="carousel-inner">
                             @foreach($movies->take(3) as $index => $movie)
                             <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                <img src="{{ $movie->poster ? asset('uploads/movies' . $movie->poster) : 'https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3' }}"
+                                <img src="{{  asset('uploads/movies' . $movie->poster)  }}"
                                     class="d-block w-100" alt="{{ $movie->name }}" style="object-fit: cover;">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>{{ $movie->name }}</h5>
@@ -69,7 +69,7 @@
                                 <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
                                     <div class="movie-card">
                                         <div class="position-relative">
-                                            <img src="{{ $movie->poster ? asset('storage/posters/' . $movie->poster) : 'https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3' }}"
+                                            <img src="{{  asset('storage/posters/' . $movie->poster)  }}"
                                                 class="card-img-top movie-poster" alt="{{ $movie->name }}">
                                             
                                             
