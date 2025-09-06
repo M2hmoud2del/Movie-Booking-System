@@ -100,7 +100,6 @@ class BookingController extends Controller
             'showtime_id' => 'required|exists:showtimes,id',
             'amount' => 'required|numeric',
             'status' => 'required|string|max:20',
-            'seats' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -122,21 +121,7 @@ class BookingController extends Controller
             // Split the comma-separated string into an array of seat names.
             $seatNames = array_map('trim', explode(',', $request->seats));
 
-            // Find the seat IDs based on the provided seat names.
-            $seatIds = Seat::whereIn(DB::raw('CONCAT(seat_row, seat_number)'), $seatNames)
-                ->pluck('id')
-                ->toArray();
-
-            // Delete all existing booked seats for this booking.
-            $booking->bookedSeats()->delete();
-
-            // Create new booked seat records with the updated seat IDs.
-            foreach ($seatIds as $seatId) {
-                BookedSeat::create([
-                    'booking_id' => $booking->id,
-                    'seat_id' => $seatId,
-                ]);
-            }
+            
         });
 
         return redirect()->route('admin.bookings.index')->with('success', 'Booking updated successfully.');

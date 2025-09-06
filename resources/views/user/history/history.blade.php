@@ -42,7 +42,7 @@
                                         <h5 class="card-title">{{ $booking->showtime->movie->name }}</h5>
                                         <p class="card-text text-muted">Watched on: <strong>{{ $booking->created_at->format('d M Y')}}</strong></p>
                                         <p class="card-text">
-                                                <span class="badge bg-warning text-dark">{{ $booking->showtime->movie->rating }}/10</span> •
+                                                <span class="badge bg-warning text-dark">{{ $booking->showtime->movie->rating }}/5</span> •
 
                                             {{ $booking->showtime->movie->genre }} • {{ floor($booking->showtime->movie->duration / 60) }}h {{ $booking->showtime->movie->duration % 60 }}m
                                         </p>

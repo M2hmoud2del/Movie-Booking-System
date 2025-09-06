@@ -1,5 +1,5 @@
 <script>
-    const allShowtimes = @json($showtimes); // Each showtime: {id, movie_id, screen_id, start_time}
+const allShowtimes = @json($showtimes); // Each showtime: {id, movie_id, screen_id, start_time}
 const allMovies = @json($movies);       // Movies table
 const bookedSeats = @json($booked); // each = {showtime_id, seat_id}
 const seats = @json($seats);            // All seats
@@ -54,7 +54,7 @@ function renderSeats(screenId, showtimeId) {
 screenSelect.addEventListener('change', function() {
     const screenId = this.value;
 
-    // Reset
+    
     movieSelect.innerHTML = '<option selected>Choose a movie...</option>';
     timeSelect.innerHTML = '<option selected>Choose time...</option>';
 
@@ -74,7 +74,7 @@ screenSelect.addEventListener('change', function() {
         movieSelect.appendChild(option);
     });
 
-    // When user picks a movie, show its times
+    // When user picks a movie show its times
     movieSelect.addEventListener('change', function() {
         const movieId = this.value;
         timeSelect.innerHTML = '<option selected>Choose time...</option>';
@@ -82,17 +82,17 @@ screenSelect.addEventListener('change', function() {
         const movieShowtimes = filteredShowtimes.filter(s => s.movie_id == movieId);
         movieShowtimes.forEach(s => {
             const option = document.createElement('option');
-            option.value = s.id; // Important: pass showtime_id
+            option.value = s.id; 
             option.textContent = s.start_time;
             timeSelect.appendChild(option);
         });
     });
 
-    // Render seats immediately (without showtime yet)
+    
     renderSeats(screenId, null);
 });
 
-// When time is chosen, re-render seats for that showtime
+
 timeSelect.addEventListener('change', function() {
     const showtimeId = this.value;
     const screenId = screenSelect.value;

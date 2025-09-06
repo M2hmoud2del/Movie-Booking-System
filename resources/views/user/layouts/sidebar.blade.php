@@ -18,13 +18,7 @@
                         <div class="nav-divider"></div>
                         <div class="nav-section">
         <ul class="nav-menu">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="nav-link" style="background:none;border:none;padding:0;cursor:pointer;">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span class="nav-text">Log Out</span>
-                    </button>
-                </form>
+                
             </li>
         </ul>
     </div>

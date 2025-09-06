@@ -8,6 +8,13 @@
 @endsection
 
 @section('content')
+@if ($errors->any())
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $e)
+                            <li>{{$e}}</li>
+                        @endforeach
+                    </div>
+                @endif
 <div class="dashboard-section" style="margin-bottom: 20px; background: #121A2C;">
     <div class="section-header">
         <h2 class="section-title">Edit Booking Information</h2>
@@ -45,10 +52,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
-            <label for="seats">Seats</label>
-            <input type="text" name="seats" id="seats" class="form-control" value="{{ implode(', ', $booking->bookedSeats->map(function($seat) { return $seat->seat->seat_row . $seat->seat->seat_number; })->toArray()) }}" placeholder="E.g., A1, A2">
-        </div>
+        
         <div class="form-group">
             <label for="status">Status</label>
             <select name="status" id="status" class="form-control">

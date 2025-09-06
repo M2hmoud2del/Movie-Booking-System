@@ -110,11 +110,21 @@
                                     <h5>Loyalty Points</h5>
                                     <h2 class="text-primary">{{$totalSpent*1.75}}</h2>
                                     <p>Earn more points for a free ticket</p>
+                                    @php
+                                    $prog=7000;
+                                    $progress = ($totalSpent * 1.75)*100/$prog;
+                                    if ($prog>($totalSpent * 1.75)){
+                                    $remain=($prog-($totalSpent * 1.75));
+                                }
+                                else {
+                                    $remain=0;
+                                }
+                                    @endphp
                                     <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width:{{ $progress}}%"
+                                            aria-valuenow="{{$progress}} " aria-valuemin="0" aria-valuemax="{{$prog}}"></div>
                                     </div>
-                                    <p class="small text-muted mt-2">75% to next reward</p>
+                                    <p class="small text-muted mt-2">{{$remain}} to next reward</p>
                                 </div>
                             </div>
 

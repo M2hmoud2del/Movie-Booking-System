@@ -79,52 +79,34 @@
                         </div>
                     </div>
 
-                    
+                    <div class="col-lg-9">
+                            <h4 class="section-title">Your Rewards</h4>
+                            <div class="card mb-4">
+                                <div class="card-body text-center">
+                                    <h5>Loyalty Points</h5>
+                                    <h2 class="text-primary">{{$totalSpent*1.75}}</h2>
+                                    <p>Earn more points for a free ticket</p>
+                                    @php
+                                    $prog=7000;
+                                    $progress = ($totalSpent * 1.75)*100/$prog;
+                                    if ($prog>($totalSpent * 1.75)){
+                                    
+                                    $remain=($prog-($totalSpent * 1.75));
+                                }
+                                else {
+                                    $remain=0;
+                                }
+                                    @endphp
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width:{{ $progress}}%"
+                                            aria-valuenow="{{$progress}} " aria-valuemin="0" aria-valuemax="{{$prog}}"></div>
+                                    </div>
+                                    <p class="small text-muted mt-2">{{$remain}} to next reward</p>
+                                </div>
+                            </div>
 
-                    <!-- Upcoming Bookings -->
-                    <div class="row mb-5">
-                        <div class="col-12">
-                            <h4 class="section-title">Top movies</h4>
-                            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3"
-                                    class="d-block w-100" alt="First slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>First slide label</h5>
-                                    <p>Some representative placeholder content for the first slide.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3"
-                                    class="d-block w-100" alt="Second slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Second slide label</h5>
-                                    <p>Some representative placeholder content for the second slide.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3"
-                                    class="d-block w-100" alt="Third slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Third slide label</h5>
-                                    <p>Some representative placeholder content for the third slide.</p>
-                                </div>
-                            </div>
+                            
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                        </div>
-                    </div>
 
                     <!-- Quick Booking -->
                     
